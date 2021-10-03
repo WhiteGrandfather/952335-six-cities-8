@@ -1,9 +1,7 @@
 import React from 'react';
-import MainPage from '../main-page/main-page';
 
-type AppProps = {
-  placesNumber: number
-}
+import {AppProps} from './types';
+import MainPage from '../main-page/main-page';
 
 function App({placesNumber}: AppProps): JSX.Element {
   return <MainPage placesNumber={placesNumber}/>;

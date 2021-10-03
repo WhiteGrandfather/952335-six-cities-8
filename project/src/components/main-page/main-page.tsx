@@ -1,12 +1,9 @@
 import React from 'react';
+
+import {MainPageProps} from './types';
 import PlaceCardItem from '../place-card-item/place-card-item';
 
 const TAB_INDEX = 0;
-
-type MainPageProps = {
-  placesNumber: number
-}
-
 let maxKey = 100;
 
 function MainPage({placesNumber}: MainPageProps): JSX.Element {
