@@ -1,9 +1,6 @@
 import {Offer} from '../../types/offer-type';
 
-export type loggedType = boolean;
-
-export type PrivetRouteProps = {
-  isLoggedIn: boolean,
+export type FavoritesProps = {
   favoritesList: {
     favName: string,
     favList: Offer[]
