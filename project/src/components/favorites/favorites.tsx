@@ -4,8 +4,7 @@ import {FavoritesProps} from './types';
 import Header from '../header/header';
 import PlaceCardItem from '../place-card-item/place-card-item';
 
-function Favorites({favoritesList}: FavoritesProps): JSX.Element {
-
+export default function Favorites({favoritesList}: FavoritesProps): JSX.Element {
 
   function renderFavList(): JSX.Element[] {
     const arrLIst = favoritesList.map(({favName, favList}) => {
@@ -22,7 +21,6 @@ function Favorites({favoritesList}: FavoritesProps): JSX.Element {
           </div>
           <div className="favorites__places">
             {cardList}
-
           </div>
         </li>
       );
@@ -53,5 +51,3 @@ function Favorites({favoritesList}: FavoritesProps): JSX.Element {
     </div>
   );
 }
-
-export default Favorites;

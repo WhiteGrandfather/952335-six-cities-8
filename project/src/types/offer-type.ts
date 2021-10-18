@@ -1,19 +1,19 @@
 type Locations = {
   latitude: number,
   longitude: number,
-  zoom: number
+  zoom: number,
 };
 
 type City = {
   location: Locations,
-  name: string
+  name: string,
 }
 
 export type Host = {
   avatarUrl: string,
   id: number,
   isPro: boolean,
-  name: string
+  name: string,
 };
 
 export type Offer = {
@@ -32,5 +32,5 @@ export type Offer = {
   price: number,
   rating: number,
   title: string,
-  type: string
+  type: string,
 };

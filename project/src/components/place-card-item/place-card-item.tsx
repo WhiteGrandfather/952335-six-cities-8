@@ -1,11 +1,26 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import type {PlaceCardItemProps, Multiplier} from './type';
+import type {
+  PlaceCardItemProps,
+  Multiplier } from './type';
+
 import type {Offer} from '../../types/offer-type';
 
-function PlaceCardItem ({Offer, favorites}: PlaceCardItemProps): JSX.Element {
-  const {isPremium, isFavorite, previewImage, price, rating, title, type, id}: Offer = Offer;
+export default function PlaceCardItem ({
+  Offer,
+  favorites}: PlaceCardItemProps): JSX.Element {
+
+  const {
+    isPremium,
+    isFavorite,
+    previewImage,
+    price,
+    rating,
+    title,
+    type,
+    id,
+  }: Offer = Offer;
 
   const STARS_MULTIPLIER: Multiplier = 20;
 
@@ -47,5 +62,3 @@ function PlaceCardItem ({Offer, favorites}: PlaceCardItemProps): JSX.Element {
     </article>
   );
 }
-
-export default PlaceCardItem;

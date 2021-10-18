@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
-import {Redirect, Route, useLocation} from 'react-router-dom';
+import {
+  Redirect,
+  Route,
+  useLocation } from 'react-router-dom';
 
 import Header from '../header/header';
 import {PropertyProps} from './types';
@@ -8,9 +11,11 @@ import ReviewList from '../review-list/review-list';
 import {Reviews} from '../../mocks/reviews';
 import {Review} from '../../types/review';
 
-export default function Property({isLoggedIn, Offers}: PropertyProps): JSX.Element {
-  const STARS_MULTIPLIER: Multiplier = 20;
+export default function Property({
+  isLoggedIn,
+  Offers}: PropertyProps): JSX.Element {
 
+  const STARS_MULTIPLIER: Multiplier = 20;
   const [ReviewsList, setReviewsList] = useState(Reviews);
 
   const history = useLocation();
@@ -38,11 +43,21 @@ export default function Property({isLoggedIn, Offers}: PropertyProps): JSX.Eleme
     .filter((item) => item.id.toString() === pageId)
     .map((item) => {
       const {
-        id, images, title,
-        rating, type, bedrooms,
-        maxAdults, price, goods,
-        host:{avatarUrl, isPro, name},
+        id,
+        images,
+        title,
+        rating,
+        type,
+        bedrooms,
+        maxAdults,
+        price,
+        goods,
         description,
+        host:{
+          avatarUrl,
+          isPro,
+          name,
+        },
       } = item;
 
       const ratingPercent = rating * STARS_MULTIPLIER;

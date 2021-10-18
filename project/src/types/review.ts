@@ -5,5 +5,5 @@ export type Review = {
   date: string,
   id: number,
   rating: number,
-  user: Host
+  user: Host,
 };

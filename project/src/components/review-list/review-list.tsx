@@ -1,15 +1,21 @@
 import React, {useState} from 'react';
 
 import ReviewItem from '../review-item/review-item';
-import {ReviewsListProps, maxId} from './types';
+import {
+  ReviewsListProps,
+  maxId } from './types';
 
-export default function ReviewList({ReviewsList, onReviewSubmit, isLoggedIn}: ReviewsListProps):JSX.Element {
+export default function ReviewList({
+  ReviewsList,
+  onReviewSubmit,
+  isLoggedIn,
+}: ReviewsListProps):JSX.Element {
 
   const [rating, setRating] = useState(0);
   const [message, setMessage] = useState('');
 
   let maxKey: maxId = 100;
-  const reviews = ReviewsList.map((review) => <ReviewItem  review={review} key={maxKey++}/>);
+  const reviews = ReviewsList.map((review) => <ReviewItem review={review} key={maxKey++}/>);
 
   return (
     <section className="property__reviews reviews">

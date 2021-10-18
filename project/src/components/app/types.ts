@@ -1,7 +1,7 @@
 import {Offer} from '../../types/offer-type';
 
 export type AppProps = {
-  Offers: Offer[]
+  Offers: Offer[],
 }
 
 export type FavoritesListProps = {

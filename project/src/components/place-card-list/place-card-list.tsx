@@ -8,7 +8,13 @@ import type {Offer} from '../../types/offer-type';
 export default function PlaceCardList({Offers}: PlaceCardListProps): JSX.Element {
   return (
     <>
-      {Offers.map((item: Offer) => <PlaceCardItem Offer={item} favorites={false} key={`${item.id}-card`} />)}
+      {Offers.map((item: Offer) => (
+        <PlaceCardItem
+          Offer={item}
+          favorites={false}
+          key={`${item.id}-card`}
+        />
+      ))}
     </>
   );
 }

@@ -1,5 +1,8 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {
+  BrowserRouter,
+  Route,
+  Switch } from 'react-router-dom';
 
 import MainPage from '../main-page/main-page';
 import Login from '../login/login';
@@ -8,7 +11,10 @@ import Property from '../propery/property';
 import PrivetRoute from '../privet-route/privet-route';
 
 import type {Offer} from '../../types/offer-type';
-import type {AppProps, FavoritesListProps, loggedType} from './types';
+import type {
+  AppProps,
+  FavoritesListProps,
+  loggedType } from './types';
 
 function getFavoritesList (array: Offer[]): FavoritesListProps[] {
   const cityList = array

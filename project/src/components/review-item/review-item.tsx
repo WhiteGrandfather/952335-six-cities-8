@@ -3,7 +3,17 @@ import React from 'react';
 import {ReviewItemProps} from './types';
 import {Multiplier} from '../place-card-item/type';
 
-export default function ReviewItem({review: {user: {name, avatarUrl},comment, date ,rating}}: ReviewItemProps):JSX.Element {
+export default function ReviewItem(
+  {review: {
+    user: {
+      name,
+      avatarUrl,
+    },
+    comment,
+    date,
+    rating,
+  }}: ReviewItemProps):JSX.Element {
+
   const STARS_MULTIPLIER: Multiplier = 20;
   const ratingPercent = rating * STARS_MULTIPLIER;
 
