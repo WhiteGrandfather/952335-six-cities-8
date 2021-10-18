@@ -1,28 +1,55 @@
 import React from 'react';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {
+  BrowserRouter,
+  Route,
+  Switch } from 'react-router-dom';
 
-import {AppProps} from './types';
 import MainPage from '../main-page/main-page';
 import Login from '../login/login';
 import Page404 from '../page-404/page404';
 import Property from '../propery/property';
 import PrivetRoute from '../privet-route/privet-route';
 
-function App({placesNumber}: AppProps): JSX.Element {
+import type {Offer} from '../../types/offer-type';
+import type {
+  AppProps,
+  FavoritesListProps,
+  loggedType } from './types';
+
+function getFavoritesList (array: Offer[]): FavoritesListProps[] {
+  const cityList = array
+    .filter((item)=> item.isFavorite)
+    .map((item) => item.city.name);
+
+  const unicsCityList: string[] = [...new Set(cityList)];
+
+  return unicsCityList.map((item) => ({
+    favName: item,
+    favList: array.filter((el) => item === el.city.name && el.isFavorite),
+  }));
+}
+
+export default function App({Offers}: AppProps): JSX.Element {
+
+  const isLoggedIn: loggedType = true;
+
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact>
-          <MainPage placesNumber={placesNumber}/>
+          <MainPage Offers={Offers}/>
         </Route>
         <Route path="/login" exact>
           <Login />
         </Route>
         <Route path="/favorites" exact>
-          <PrivetRoute/>
+          <PrivetRoute
+            isLoggedIn={isLoggedIn}
+            favoritesList={getFavoritesList(Offers)}
+          />
         </Route>
         <Route path="/offer/:id?" exact>
-          <Property/>
+          <Property isLoggedIn={isLoggedIn} Offers={Offers}/>
         </Route>
         <Route>
           <Page404/>
@@ -31,5 +58,3 @@ function App({placesNumber}: AppProps): JSX.Element {
     </BrowserRouter>
   );
 }
-
-export default App;

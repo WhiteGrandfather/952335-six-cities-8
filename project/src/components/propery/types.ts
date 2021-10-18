@@ -1,5 +1,6 @@
 import {Offer} from '../../types/offer-type';
 
-export type MainPageProps = {
+export type PropertyProps = {
+  isLoggedIn: boolean,
   Offers: Offer[],
-};
+}
