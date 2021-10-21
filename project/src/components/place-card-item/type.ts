@@ -5,4 +5,5 @@ export type Multiplier = number;
 export type PlaceCardItemProps = {
   Offer: Offer,
   favorites: boolean,
+  getHoverOffer?: (id: number) => void | undefined,
 };

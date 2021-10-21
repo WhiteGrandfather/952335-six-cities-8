@@ -9,7 +9,9 @@ import type {Offer} from '../../types/offer-type';
 
 export default function PlaceCardItem ({
   Offer,
-  favorites}: PlaceCardItemProps): JSX.Element {
+  favorites,
+  getHoverOffer,
+}: PlaceCardItemProps): JSX.Element {
 
   const {
     isPremium,
@@ -28,7 +30,9 @@ export default function PlaceCardItem ({
   const ratingPercent = rating * STARS_MULTIPLIER;
 
   return (
-    <article className={`${favorites?'favorites__card':'cities__place-card'} place-card`}>
+    <article className={`${favorites?'favorites__card':'cities__place-card'} place-card`}
+      onMouseEnter={()=>getHoverOffer && getHoverOffer(id)}
+    >
       {isPremium?mark:null}
       <div className={`${favorites?'favorites__image-wrapper':'cities__image-wrapper'} place-card__image-wrapper`}>
         <Link to={`/offer/:id?${id}`}>
