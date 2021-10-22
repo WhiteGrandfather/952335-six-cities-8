@@ -5,11 +5,15 @@ import {
   useLocation } from 'react-router-dom';
 
 import Header from '../header/header';
-import {PropertyProps} from './types';
-import {Multiplier} from '../place-card-item/type';
+import type {PropertyProps} from './types';
+import type {Multiplier} from '../place-card-item/type';
 import ReviewList from '../review-list/review-list';
 import {Reviews} from '../../mocks/reviews';
 import {Review} from '../../types/review';
+import Map from '../map/map';
+import type {
+  City,
+  Points} from '../../types/map-type';
 
 export default function Property({
   isLoggedIn,
@@ -49,6 +53,8 @@ export default function Property({
         rating,
         type,
         bedrooms,
+        city,
+        location,
         maxAdults,
         price,
         goods,
@@ -59,6 +65,22 @@ export default function Property({
           name,
         },
       } = item;
+
+      const propertyLocation: Points = [
+        {
+          id: id,
+          latitude: location.latitude,
+          longitude: location.longitude,
+          zoom: location.zoom,
+        },
+      ];
+
+      const propertyCity: City = {
+        title: city.name,
+        latitude: city.location.latitude,
+        longitude: city.location.longitude,
+        zoom: city.location.zoom,
+      };
 
       const ratingPercent = rating * STARS_MULTIPLIER;
 
@@ -161,7 +183,9 @@ export default function Property({
 
                 </div>
               </div>
-              <section className="property__map map"/>
+              <section className="property__map map">
+                <Map city={propertyCity} points={propertyLocation} onHoverId={null}/>
+              </section>
             </section>
             <div className="container">
               <section className="near-places places">
