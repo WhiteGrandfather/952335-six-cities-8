@@ -5,8 +5,11 @@ import PlaceCardList from '../place-card-list/place-card-list';
 import Header from '../header/header';
 import type {MainPageProps} from './types';
 import Map from '../map/map';
-import {City, Points} from '../../types/map-type';
-import {Offer} from '../../types/offer-type';
+import type {
+  City,
+  Points
+} from '../../types/map-type';
+import type {Offer} from '../../types/offer-type';
 
 const TAB_INDEX = 0;
 
@@ -18,7 +21,7 @@ const city: City = {
 };
 
 export default function MainPage({Offers}: MainPageProps): JSX.Element {
-  const [isOnHOver, setIsOnHOver] = useState<number | null>(null);
+  const [onHoverId, setOnHoverId] = useState<number | null>(null);
 
   const currentOffers: Offer[] = Offers
     .filter((item)=>item.city.name === city.title);
@@ -32,7 +35,7 @@ export default function MainPage({Offers}: MainPageProps): JSX.Element {
     }));
 
   const getHoverOffer = (id: number) => {
-    setIsOnHOver(id);
+    setOnHoverId(id);
   };
 
   return (
@@ -99,14 +102,14 @@ export default function MainPage({Offers}: MainPageProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content"
-                onMouseLeave={()=>setIsOnHOver(null)}
+                onMouseLeave={()=>setOnHoverId(null)}
               >
                 <PlaceCardList Offers={currentOffers} getHoverOffer={getHoverOffer}/>
               </div>
             </section>
             <div className="cities__right-section">
               <section className="cities__map map">
-                <Map city={city} points={points} isOnHOver={isOnHOver}/>
+                <Map city={city} points={points} onHoverId={onHoverId}/>
               </section>
             </div>
           </div>

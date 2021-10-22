@@ -2,8 +2,10 @@ import React, {useEffect, useRef} from 'react';
 import useMap from '../../hooks/useMap';
 
 import type {MapProps} from './type';
-
-import {Icon, Marker} from 'leaflet';
+import {
+  Icon,
+  Marker
+} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 const defaultCustomIcon = new Icon({
@@ -21,7 +23,7 @@ const currentCustomIcon = new Icon({
 export default function Map({
   city,
   points,
-  isOnHOver}: MapProps): JSX.Element {
+  onHoverId}: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
@@ -36,13 +38,13 @@ export default function Map({
 
         marker
           .setIcon(
-            isOnHOver !== null && point.id === isOnHOver
+            onHoverId !== null && point.id === onHoverId
               ? currentCustomIcon
               : defaultCustomIcon)
           .addTo(map);
       });
     }
-  }, [map, points, isOnHOver]);
+  }, [map, points, onHoverId]);
 
   return (
     <div style={{height: '100%'}}
