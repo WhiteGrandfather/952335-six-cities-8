@@ -2,22 +2,26 @@ import React, {useState} from 'react';
 import {
   Redirect,
   Route,
-  useLocation } from 'react-router-dom';
+  useLocation
+} from 'react-router-dom';
 
 import Header from '../header/header';
-import type {PropertyProps} from './types';
-import type {Multiplier} from '../place-card-item/type';
 import ReviewList from '../review-list/review-list';
 import {Reviews} from '../../mocks/reviews';
 import {Review} from '../../types/review';
 import Map from '../map/map';
+
+import type {PropertyProps} from './types';
+import type {Multiplier} from '../place-card-item/type';
 import type {
   City,
-  Points} from '../../types/map-type';
+  Points
+} from '../../types/map-type';
 
 export default function Property({
   isLoggedIn,
-  Offers}: PropertyProps): JSX.Element {
+  Offers,
+}: PropertyProps): JSX.Element {
 
   const STARS_MULTIPLIER: Multiplier = 20;
   const [ReviewsList, setReviewsList] = useState(Reviews);

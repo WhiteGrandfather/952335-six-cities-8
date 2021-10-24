@@ -5,7 +5,7 @@ import PlaceCardItem from '../place-card-item/place-card-item';
 import type {PlaceCardListProps} from './type';
 import type {Offer} from '../../types/offer-type';
 
-export default function PlaceCardList({Offers, getHoverOffer}: PlaceCardListProps): JSX.Element {
+function PlaceCardList({Offers, getHoverOffer}: PlaceCardListProps): JSX.Element {
   return (
     <>
       {Offers.map((item: Offer) => (
@@ -19,3 +19,5 @@ export default function PlaceCardList({Offers, getHoverOffer}: PlaceCardListProp
     </>
   );
 }
+
+export default PlaceCardList;

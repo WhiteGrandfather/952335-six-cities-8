@@ -2,7 +2,8 @@ import React from 'react';
 import {
   BrowserRouter,
   Route,
-  Switch } from 'react-router-dom';
+  Switch
+} from 'react-router-dom';
 
 import MainPage from '../main-page/main-page';
 import Login from '../login/login';
@@ -14,7 +15,8 @@ import type {Offer} from '../../types/offer-type';
 import type {
   AppProps,
   FavoritesListProps,
-  loggedType } from './types';
+  loggedType
+} from './types';
 
 function getFavoritesList (array: Offer[]): FavoritesListProps[] {
   const cityList = array
@@ -30,14 +32,13 @@ function getFavoritesList (array: Offer[]): FavoritesListProps[] {
 }
 
 export default function App({Offers}: AppProps): JSX.Element {
-
   const isLoggedIn: loggedType = true;
 
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact>
-          <MainPage Offers={Offers}/>
+          <MainPage />
         </Route>
         <Route path="/login" exact>
           <Login />
@@ -49,7 +50,10 @@ export default function App({Offers}: AppProps): JSX.Element {
           />
         </Route>
         <Route path="/offer/:id?" exact>
-          <Property isLoggedIn={isLoggedIn} Offers={Offers}/>
+          <Property
+            isLoggedIn={isLoggedIn}
+            Offers={Offers}
+          />
         </Route>
         <Route>
           <Page404/>
