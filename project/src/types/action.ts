@@ -6,8 +6,8 @@ export enum ActionType {
 }
 
 export type ChangeCurrentCityAction = {
-  type: ActionType.ChangeCurrentCity;
-  payload: string;
+  type: ActionType.ChangeCurrentCity,
+  payload: string,
 }
 
 export type AddOffersAction = {
