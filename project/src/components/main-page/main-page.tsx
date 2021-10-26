@@ -16,23 +16,33 @@ import type {
 } from '../../types/map-type';
 import type {Offer} from '../../types/offer-type';
 import type {State} from '../../types/state';
+import SortList from '../sort-list/sort-list';
 
-const TAB_INDEX = 0;
+// Минимальное количество Offer
 const MIN_OFFERS = 0;
 
-const mapStateToProps = ({currentCity, offers}: State) => ({
+//Подготавливает типы для props из Redux store
+const mapStateToProps = ({currentCity, offers, sortOfferBy}: State) => ({
   currentCity,
+  sortOfferBy,
   offers,
 });
 
+//Создает константу connector для подключения props из Redux в компонент
 const connector = connect(mapStateToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>
 
-function MainPage({currentCity, offers}: PropsFromRedux): JSX.Element {
+// Подготавливает типы props для компонента
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+// currentCity = string (выбранный город сортировки)
+// offers = массив Offer (предложения аренды)
+// sortOfferBy = string (вид сортировки)
+function MainPage({currentCity, offers, sortOfferBy}: PropsFromRedux): JSX.Element {
 
   const [onHoverId, setOnHoverId] = useState<number | null>(null);
   const [city, setCity] = useState<City | null>(null);
 
+  // Фильтрует Offer[] на соответствие городу
   const currentOffers: Offer[] = offers
     .filter((item)=> {
       if (item.city.name === currentCity) {
@@ -49,6 +59,7 @@ function MainPage({currentCity, offers}: PropsFromRedux): JSX.Element {
       return false;
     });
 
+  // Создаёт массив маркеров для карты
   const points: Points = currentOffers
     .map((item)=> ({
       id: item.id,
@@ -57,49 +68,63 @@ function MainPage({currentCity, offers}: PropsFromRedux): JSX.Element {
       zoom: item.location.zoom,
     }));
 
+  // Находит id Offer`а на который наведена мышь
   const getHoverOffer = (id: number) => {
     setOnHoverId(id);
   };
 
+  // Сортировка Offer
+  const sortedOffers = currentOffers.sort((a,b) => {
+    switch (sortOfferBy) {
+      case 'Price: low to high':
+        if (a.price === b.price) {return 0;}
+        return a.price > b.price? 1 : -1;
+      case 'Price: high to low':
+        if (a.price === b.price) {return 0;}
+        return a.price > b.price? -1 : 1;
+      case 'Top rated first':
+        if (a.rating === b.rating) {return 0;}
+        return a.rating > b.rating? -1 : 1;
+      default:
+        return 0;
+    }
+  });
+
+  // Определяет наличие предложений
   const isEmptyPage: boolean = currentOffers.length <= MIN_OFFERS;
 
-  const haveOffers: JSX.Element = (
-    <div className="cities">
-      <div className="cities__places-container container">
-        <section className="cities__places places">
-          <h2 className="visually-hidden">Places</h2>
-          <b className="places__found">
-            {currentOffers.length} places to stay in {currentCity}
-          </b>
-          <form className="places__sorting" action="#" method="get">
-            <span className="places__sorting-caption">Sort by</span>
-            <span className="places__sorting-type" tabIndex={TAB_INDEX}>
-                  Popular
-              <svg className="places__sorting-arrow" width="7" height="4">
-                <use xlinkHref="#icon-arrow-select"/>
-              </svg>
-            </span>
-            <ul className="places__options places__options--custom places__options--opened">
-              <li className="places__option places__option--active" tabIndex={TAB_INDEX}>Popular</li>
-              <li className="places__option" tabIndex={TAB_INDEX}>Price: low to high</li>
-              <li className="places__option" tabIndex={TAB_INDEX}>Price: high to low</li>
-              <li className="places__option" tabIndex={TAB_INDEX}>Top rated first</li>
-            </ul>
-          </form>
-          <div className="cities__places-list places__list tabs__content"
-            onMouseLeave={()=>setOnHoverId(null)}
-          >
-            <PlaceCardList Offers={currentOffers} getHoverOffer={getHoverOffer}/>
+  //Показывает компонент нет предложений или список предложений аренды и карту
+  const isOffers = (): JSX.Element => {
+    if (isEmptyPage) {
+      //Возвращает компонент нет предложений
+      return <MainEmpty/>;
+    } else {
+      // Возвращает список предложений аренды и карту
+      return (
+        <div className="cities">
+          <div className="cities__places-container container">
+            <section className="cities__places places">
+              <h2 className="visually-hidden">Places</h2>
+              <b className="places__found">
+                {currentOffers.length} places to stay in {currentCity}
+              </b>
+              <SortList />
+              <div className="cities__places-list places__list tabs__content"
+                onMouseLeave={()=>setOnHoverId(null)}
+              >
+                <PlaceCardList Offers={sortedOffers} getHoverOffer={getHoverOffer}/>
+              </div>
+            </section>
+            <div className="cities__right-section">
+              <section className="cities__map map">
+                {city !== null && <Map city={city} points={points} onHoverId={onHoverId}/>}
+              </section>
+            </div>
           </div>
-        </section>
-        <div className="cities__right-section">
-          <section className="cities__map map">
-            {city !== null && <Map city={city} points={points} onHoverId={onHoverId}/>}
-          </section>
         </div>
-      </div>
-    </div>
-  );
+      );
+    }
+  };
 
   return (
     <div className="page page--gray page--main">
@@ -108,7 +133,7 @@ function MainPage({currentCity, offers}: PropsFromRedux): JSX.Element {
         <h1 className="visually-hidden">Cities</h1>
         <TabsList/>
 
-        {isEmptyPage ?  <MainEmpty/> : haveOffers}
+        {isOffers}
       </main>
     </div>
   );
