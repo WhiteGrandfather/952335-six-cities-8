@@ -133,7 +133,7 @@ function MainPage({currentCity, offers, sortOfferBy}: PropsFromRedux): JSX.Eleme
         <h1 className="visually-hidden">Cities</h1>
         <TabsList/>
 
-        {isOffers}
+        {isOffers()}
       </main>
     </div>
   );
