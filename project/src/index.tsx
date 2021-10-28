@@ -6,7 +6,11 @@ import {Provider} from 'react-redux';
 
 import App from './components/app/app';
 import {Offers} from './mocks/offers';
-import {AddOffers, ChangeCurrentCity} from './store/action';
+import {
+  AddOffers,
+  ChangeCurrentCity,
+  ChangeOfferSort
+} from './store/action';
 import {reducer} from './store/reducer';
 
 const store = createStore(
@@ -17,6 +21,7 @@ const store = createStore(
 store.dispatch(AddOffers(Offers));
 // store.dispatch(ChangeCurrentCity('Paris'));
 store.dispatch(ChangeCurrentCity('Amsterdam'));
+store.dispatch(ChangeOfferSort('Popular'));
 
 ReactDOM.render(
   <React.StrictMode>
