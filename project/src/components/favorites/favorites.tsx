@@ -1,13 +1,43 @@
 import React from 'react';
 
-import {FavoritesProps} from './types';
 import Header from '../header/header';
 import PlaceCardItem from '../place-card-item/place-card-item';
+import {Offer} from '../../types/offer-type';
+import {FavoritesListProps} from '../app/types';
+import {State} from '../../types/state';
+import {connect, ConnectedProps} from 'react-redux';
 
-export default function Favorites({favoritesList}: FavoritesProps): JSX.Element {
+
+function getFavoritesList (array: Offer[]): FavoritesListProps[] {
+  const cityList = array
+    .filter((item)=> item.isFavorite)
+    .map((item) => item.city.name);
+
+  const unicsCityList: string[] = [...new Set(cityList)];
+
+  return unicsCityList.map((item) => ({
+    favName: item,
+    favList: array.filter((el) => item === el.city.name && el.isFavorite),
+  }));
+}
+
+
+//Подготавливает типы для props из Redux store
+const mapStateToProps = ({offers}: State) => ({
+  offers,
+});
+
+//Создает константу connector для подключения props из Redux в компонент
+const connector = connect(mapStateToProps);
+
+// Подготавливает типы props для компонента
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+
+export function Favorites({offers}: PropsFromRedux): JSX.Element {
 
   function renderFavList(): JSX.Element[] {
-    const arrLIst = favoritesList.map(({favName, favList}) => {
+    const arrLIst = getFavoritesList(offers).map(({favName, favList}) => {
       const cardList = favList.map((item) => <PlaceCardItem Offer={item} favorites key={`${item.id}-card`}/>);
 
       return (
@@ -51,3 +81,5 @@ export default function Favorites({favoritesList}: FavoritesProps): JSX.Element 
     </div>
   );
 }
+
+export default connector(Favorites);

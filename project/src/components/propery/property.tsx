@@ -17,11 +17,25 @@ import type {
   City,
   Points
 } from '../../types/map-type';
+import {State} from '../../types/state';
+import {connect, ConnectedProps} from 'react-redux';
 
-export default function Property({
+
+//Подготавливает типы для props из Redux store
+const mapStateToProps = ({offers}: State) => ({
+  offers,
+});
+
+//Создает константу connector для подключения props из Redux в компонент
+const connector = connect(mapStateToProps);
+
+// Подготавливает типы props для компонента
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export function Property({
   isLoggedIn,
-  Offers,
-}: PropertyProps): JSX.Element {
+  offers,
+}: PropertyProps & PropsFromRedux): JSX.Element {
 
   const STARS_MULTIPLIER: Multiplier = 20;
   const [ReviewsList, setReviewsList] = useState(Reviews);
@@ -47,7 +61,7 @@ export default function Property({
     setReviewsList([...ReviewsList, newRev]);
   };
 
-  const currentOffer = Offers
+  const currentOffer = offers
     .filter((item) => item.id.toString() === pageId)
     .map((item) => {
       const {
@@ -305,3 +319,5 @@ export default function Property({
   );
 
 }
+
+export default connector(Property);

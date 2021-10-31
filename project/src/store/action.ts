@@ -2,7 +2,8 @@ import {
   ActionType,
   AddOffersAction,
   ChangeCurrentCityAction,
-  ChangeOfferSortAction
+  ChangeOfferSortAction,
+  LoadOffersAction
 } from '../types/action';
 import {Offer} from '../types/offer-type';
 
@@ -19,4 +20,9 @@ export const AddOffers = (offers: Offer[]): AddOffersAction => ({
 export const ChangeOfferSort = (sortOfferBy: string): ChangeOfferSortAction => ({
   type: ActionType.ChangeOfferSort,
   payload: sortOfferBy,
+});
+
+export const LoadOffers = (offers: Offer[]): LoadOffersAction => ({
+  type: ActionType.LoadOffers,
+  payload: offers,
 });
