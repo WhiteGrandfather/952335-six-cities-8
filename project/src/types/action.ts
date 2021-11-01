@@ -5,6 +5,8 @@ export enum ActionType {
   AddOffers = 'offer/addOffer',
   ChangeOfferSort = 'offer/changeOfferSort',
   LoadOffers = 'data/loadOffers',
+  RequireAuthorization = 'user/requireAuthorisation',
+  RequireLogout = 'user/requireLogout',
 }
 
 export type ChangeCurrentCityAction = {
@@ -27,8 +29,19 @@ export type LoadOffersAction = {
   payload: Offer[],
 }
 
+export type RequireAuthorizationAction = {
+  type: ActionType.RequireAuthorization,
+  payload: string,
+}
+
+export type RequireLogoutAction = {
+  type: ActionType.RequireLogout,
+}
+
 export type Actions =
-    ChangeCurrentCityAction
+  | ChangeCurrentCityAction
   | AddOffersAction
   | ChangeOfferSortAction
-  | LoadOffersAction;
+  | LoadOffersAction
+  | RequireAuthorizationAction
+  | RequireLogoutAction;

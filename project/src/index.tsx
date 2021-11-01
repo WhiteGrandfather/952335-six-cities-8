@@ -8,9 +8,9 @@ import {Provider} from 'react-redux';
 import App from './components/app/app';
 import {arrAdapter} from './services/adapter';
 import {
-  AddOffers,
-  ChangeCurrentCity,
-  ChangeOfferSort
+  addOffers,
+  changeCurrentCity,
+  changeOfferSort
 } from './store/action';
 import {reducer} from './store/reducer';
 import {createAPI} from './services/api';
@@ -21,23 +21,22 @@ const store = createStore(
   composeWithDevTools(),
 );
 
+
 let offerList: Offer[] | [] = [];
 
 createAPI().then((response) => {
   offerList = arrAdapter(response);
 
-  store.dispatch(AddOffers(offerList));
+  store.dispatch(addOffers(offerList));
 } );
 
-store.dispatch(ChangeCurrentCity('Paris'));
-store.dispatch(ChangeOfferSort('Popular'));
+store.dispatch(changeCurrentCity('Paris'));
+store.dispatch(changeOfferSort('Popular'));
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-
       <App/>
-
     </Provider>
   </React.StrictMode>,
 

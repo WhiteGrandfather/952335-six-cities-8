@@ -6,7 +6,7 @@ import {
 } from 'react-redux';
 
 import {Actions} from '../../types/action';
-import {ChangeCurrentCity} from '../../store/action';
+import {changeCurrentCity} from '../../store/action';
 
 const CITY_LIST: string[] = [
   'Paris',
@@ -23,7 +23,7 @@ const mapStateToProps = ({currentCity}: State) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onCityClick(item: string) {
-    dispatch(ChangeCurrentCity(item));
+    dispatch(changeCurrentCity(item));
   },
 });
 

@@ -4,4 +4,5 @@ export type State = {
   currentCity: string,
   sortOfferBy: string,
   offers: Offer[],
+  authorizationStatus: string,
 }

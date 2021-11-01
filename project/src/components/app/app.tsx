@@ -5,6 +5,7 @@ import {
   Switch
 } from 'react-router-dom';
 
+import {AppRoute} from '../../const';
 import MainPage from '../main-page/main-page';
 import Login from '../login/login';
 import Page404 from '../page-404/page404';
@@ -21,18 +22,18 @@ export default function App(): JSX.Element {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact>
+        <Route exact path={AppRoute.Root}>
           <MainPage />
         </Route>
-        <Route path="/login" exact>
+        <Route exact path={AppRoute.Login}>
           <Login />
         </Route>
-        <Route path="/favorites" exact>
+        <Route exact path={AppRoute.Favorites}>
           <PrivetRoute
             isLoggedIn={isLoggedIn}
           />
         </Route>
-        <Route path="/offer/:id?" exact>
+        <Route exact path={AppRoute.Property}>
           <Property
             isLoggedIn={isLoggedIn}
           />
