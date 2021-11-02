@@ -4,20 +4,36 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
+import {connect, ConnectedProps} from 'react-redux';
 
-import {AppRoute} from '../../const';
+import {
+  AppRoute,
+  AuthorizationStatus
+} from '../../const';
 import MainPage from '../main-page/main-page';
 import Login from '../login/login';
 import Page404 from '../page-404/page404';
 import Property from '../propery/property';
 import PrivetRoute from '../privet-route/privet-route';
 
-import type {
-  loggedType
-} from './types';
+// import type {loggedType} from './types';
+import type {State} from '../../types/state';
+import LoadingScreen from '../loading-screen/loading-screen';
 
-export default function App(): JSX.Element {
-  const isLoggedIn: loggedType = true;
+const mapStateToProps = ({authorizationStatus, isDataLoaded}: State)=> ({
+  authorizationStatus,
+  isDataLoaded,
+});
+
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
+
+function App(props: PropsFromRedux): JSX.Element {
+  const {authorizationStatus, isDataLoaded} = props;
+
+  if (authorizationStatus === AuthorizationStatus.Unknown || !isDataLoaded) {
+    return <LoadingScreen/>;
+  }
 
   return (
     <BrowserRouter>
@@ -30,12 +46,12 @@ export default function App(): JSX.Element {
         </Route>
         <Route exact path={AppRoute.Favorites}>
           <PrivetRoute
-            isLoggedIn={isLoggedIn}
+            isLoggedIn={isDataLoaded}
           />
         </Route>
         <Route exact path={AppRoute.Property}>
           <Property
-            isLoggedIn={isLoggedIn}
+            isLoggedIn={isDataLoaded}
           />
         </Route>
         <Route>
@@ -45,3 +61,6 @@ export default function App(): JSX.Element {
     </BrowserRouter>
   );
 }
+
+export {App};
+export default connector(App);

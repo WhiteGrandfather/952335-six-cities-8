@@ -17,3 +17,10 @@ export enum APIRoute {
   Logout = '/logout',
   Favorite = '/favorite',
 }
+
+export enum SortBy {
+  Default = 'Popular',
+  LowPrice = 'Price: low to high',
+  HighPrice = 'Price: high to low',
+  TopRated = 'Top rated first',
+}

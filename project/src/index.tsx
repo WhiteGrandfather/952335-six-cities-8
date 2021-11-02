@@ -1,37 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import {createStore, applyMiddleware} from 'redux';
+import {
+  createStore,
+  applyMiddleware
+} from '@reduxjs/toolkit';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {Provider} from 'react-redux';
+import thunk from 'redux-thunk';
 
 import App from './components/app/app';
-import {arrAdapter} from './services/adapter';
-import {
-  addOffers,
-  changeCurrentCity,
-  changeOfferSort
-} from './store/action';
-import {reducer} from './store/reducer';
+import {AuthorizationStatus} from './const';
 import {createAPI} from './services/api';
-import {Offer} from './types/offer-type';
+import {reducer} from './store/reducer';
+import {requireAuthorisation} from './store/action';
+
+const api = createAPI(
+  () => store.dispatch(requireAuthorisation(AuthorizationStatus.NoAuth)),
+);
 
 const store = createStore(
   reducer,
-  composeWithDevTools(),
+  composeWithDevTools(
+    applyMiddleware(thunk.withExtraArgument(api)),
+  ),
 );
-
-
-let offerList: Offer[] | [] = [];
-
-createAPI().then((response) => {
-  offerList = arrAdapter(response);
-
-  store.dispatch(addOffers(offerList));
-} );
-
-store.dispatch(changeCurrentCity('Paris'));
-store.dispatch(changeOfferSort('Popular'));
 
 ReactDOM.render(
   <React.StrictMode>
