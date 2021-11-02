@@ -9,12 +9,12 @@ import {
   Token
 } from '../services/token';
 import {AuthData} from '../types/auth-data';
-import {Offer} from "..//types/offer-type";
+import {Offer} from '..//types/offer-type';
 import {
   loadOffers,
   requireAuthorisation,
   requireLogout
-} from "../store/action";
+} from '../store/action';
 
 export const fetchQuestionAction = (): ThunkActionResult => (
   async (dispatch, _getState, api): Promise<void> => {
