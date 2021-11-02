@@ -25,6 +25,7 @@ const mapStateToProps = ({authorizationStatus, isDataLoaded}: State)=> ({
   isDataLoaded,
 });
 
+
 const connector = connect(mapStateToProps);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
