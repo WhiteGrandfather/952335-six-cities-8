@@ -16,7 +16,6 @@ import Page404 from '../page-404/page404';
 import Property from '../propery/property';
 import PrivetRoute from '../privet-route/privet-route';
 
-// import type {loggedType} from './types';
 import type {State} from '../../types/state';
 import LoadingScreen from '../loading-screen/loading-screen';
 

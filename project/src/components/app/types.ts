@@ -5,4 +5,3 @@ export type FavoritesListProps = {
   favList: Offer[],
 }
 
-export type loggedType = boolean;
