@@ -2,14 +2,15 @@ import React, {Dispatch, useState} from 'react';
 import {State} from '../../types/state';
 import {connect, ConnectedProps} from 'react-redux';
 import {Actions} from '../../types/action';
-import {ChangeOfferSort} from '../../store/action';
+import {changeOfferSort} from '../../store/action';
+import {SortBy} from '../../const';
 
 const TAB_INDEX = 0;
 const SORT_ITEMS: string[] = [
-  'Popular',
-  'Price: low to high',
-  'Price: high to low',
-  'Top rated first',
+  SortBy.Default,
+  SortBy.LowPrice,
+  SortBy.HighPrice,
+  SortBy.TopRated,
 ];
 
 const mapStateToProps = ({sortOfferBy}: State )=> ({
@@ -18,7 +19,7 @@ const mapStateToProps = ({sortOfferBy}: State )=> ({
 
 const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
   onSortClick(item: string) {
-    dispatch(ChangeOfferSort(item));
+    dispatch(changeOfferSort(item));
   },
 });
 

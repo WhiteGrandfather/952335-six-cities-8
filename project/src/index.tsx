@@ -1,34 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from 'redux';
+import {
+  createStore,
+  applyMiddleware
+} from '@reduxjs/toolkit';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {Provider} from 'react-redux';
+import thunk from 'redux-thunk';
 
 import App from './components/app/app';
-import {Offers} from './mocks/offers';
-import {
-  AddOffers,
-  ChangeCurrentCity,
-  ChangeOfferSort
-} from './store/action';
+import {AuthorizationStatus} from './const';
+import {createAPI} from './services/api';
 import {reducer} from './store/reducer';
+import {requireAuthorisation} from './store/action';
+import {ThunkAppDispatch} from './types/action';
+import {checkAuthAction, fetchOffersAction} from './services/api-actions';
+
+const api = createAPI(
+  () => store.dispatch(requireAuthorisation(AuthorizationStatus.NoAuth)),
+);
 
 const store = createStore(
   reducer,
-  composeWithDevTools(),
+  composeWithDevTools(
+    applyMiddleware(thunk.withExtraArgument(api)),
+  ),
 );
 
-store.dispatch(AddOffers(Offers));
-// store.dispatch(ChangeCurrentCity('Paris'));
-store.dispatch(ChangeCurrentCity('Amsterdam'));
-store.dispatch(ChangeOfferSort('Popular'));
+(store.dispatch as ThunkAppDispatch)(checkAuthAction());
+(store.dispatch as ThunkAppDispatch)(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-
-      <App Offers={Offers}/>
-
+      <App/>
     </Provider>
   </React.StrictMode>,
 

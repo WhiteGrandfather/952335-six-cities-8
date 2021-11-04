@@ -8,12 +8,11 @@ import type {PrivetRouteProps} from './types';
 
 export default function PrivetRoute({
   isLoggedIn,
-  favoritesList,
 }: PrivetRouteProps): JSX.Element {
 
   return (
     <Route
-      render={()=> isLoggedIn ? <Favorites favoritesList={favoritesList}/> : <Redirect to='/login'/>}
+      render={()=> isLoggedIn ? <Favorites/> : <Redirect to='/login'/>}
     />
   );
 }

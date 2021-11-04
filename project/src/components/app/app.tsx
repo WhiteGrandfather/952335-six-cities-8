@@ -4,55 +4,53 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
+import {connect, ConnectedProps} from 'react-redux';
 
+import {
+  AppRoute,
+  AuthorizationStatus
+} from '../../const';
 import MainPage from '../main-page/main-page';
 import Login from '../login/login';
 import Page404 from '../page-404/page404';
 import Property from '../propery/property';
 import PrivetRoute from '../privet-route/privet-route';
 
-import type {Offer} from '../../types/offer-type';
-import type {
-  AppProps,
-  FavoritesListProps,
-  loggedType
-} from './types';
+import type {State} from '../../types/state';
+import LoadingScreen from '../loading-screen/loading-screen';
 
-function getFavoritesList (array: Offer[]): FavoritesListProps[] {
-  const cityList = array
-    .filter((item)=> item.isFavorite)
-    .map((item) => item.city.name);
+const mapStateToProps = ({authorizationStatus, isDataLoaded}: State)=> ({
+  authorizationStatus,
+  isDataLoaded,
+});
 
-  const unicsCityList: string[] = [...new Set(cityList)];
+const connector = connect(mapStateToProps);
+type PropsFromRedux = ConnectedProps<typeof connector>;
 
-  return unicsCityList.map((item) => ({
-    favName: item,
-    favList: array.filter((el) => item === el.city.name && el.isFavorite),
-  }));
-}
+function App(props: PropsFromRedux): JSX.Element {
+  const {authorizationStatus, isDataLoaded} = props;
 
-export default function App({Offers}: AppProps): JSX.Element {
-  const isLoggedIn: loggedType = true;
+  if (authorizationStatus === AuthorizationStatus.Unknown || !isDataLoaded) {
+    return <LoadingScreen/>;
+  }
 
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/" exact>
+        <Route exact path={AppRoute.Root}>
           <MainPage />
         </Route>
-        <Route path="/login" exact>
+        <Route exact path={AppRoute.Login}>
           <Login />
         </Route>
-        <Route path="/favorites" exact>
+        <Route exact path={AppRoute.Favorites}>
           <PrivetRoute
-            isLoggedIn={isLoggedIn}
-            favoritesList={getFavoritesList(Offers)}
+            isLoggedIn={isDataLoaded}
           />
         </Route>
-        <Route path="/offer/:id?" exact>
+        <Route exact path={AppRoute.Property}>
           <Property
-            isLoggedIn={isLoggedIn}
-            Offers={Offers}
+            isLoggedIn={isDataLoaded}
           />
         </Route>
         <Route>
@@ -62,3 +60,6 @@ export default function App({Offers}: AppProps): JSX.Element {
     </BrowserRouter>
   );
 }
+
+export {App};
+export default connector(App);
