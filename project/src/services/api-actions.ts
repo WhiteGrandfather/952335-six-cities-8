@@ -1,3 +1,5 @@
+import {AxiosResponse} from 'axios';
+
 import {
   APIRoute,
   AuthorizationStatus
@@ -7,9 +9,9 @@ import {
   saveToken,
   dropToken,
   Token
-} from '../services/token';
+} from './token';
 import {AuthData} from '../types/auth-data';
-import {Offer} from '..//types/offer-type';
+import {Offer} from '../types/offer-type';
 import {
   loadOffers,
   requireAuthorisation,
@@ -26,10 +28,10 @@ export const fetchOffersAction = (): ThunkActionResult => (
 
 export const checkAuthAction = (): ThunkActionResult => (
   async (dispatch,  _getState, api) => {
-    await api.get(APIRoute.Login)
-      .then(()=>{
-        dispatch(requireAuthorisation(AuthorizationStatus.Auth));
-      });
+    const {payload} = await api.get<AxiosResponse, {payload: AuthorizationStatus}>(APIRoute.Login);
+    if (payload === AuthorizationStatus.Auth) {
+      dispatch(requireAuthorisation(AuthorizationStatus.Auth));
+    }
   }
 );
 

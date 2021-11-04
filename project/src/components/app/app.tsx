@@ -44,9 +44,7 @@ function App(props: PropsFromRedux): JSX.Element {
           <Login />
         </Route>
         <Route exact path={AppRoute.Favorites}>
-          <PrivetRoute
-            isLoggedIn={isDataLoaded}
-          />
+          <PrivetRoute/>
         </Route>
         <Route exact path={AppRoute.Property}>
           <Property

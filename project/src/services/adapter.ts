@@ -1,6 +1,6 @@
 import {Offer} from '../types/offer-type';
 
-export function adapter(item: any): Offer {
+export function adapter(item: any | Offer): Offer {
   const {
     bedrooms,
     city,

@@ -14,7 +14,10 @@ import {createAPI} from './services/api';
 import {reducer} from './store/reducer';
 import {requireAuthorisation} from './store/action';
 import {ThunkAppDispatch} from './types/action';
-import {checkAuthAction, fetchOffersAction} from './services/api-actions';
+import {
+  checkAuthAction,
+  fetchOffersAction
+} from './services/api-actions';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorisation(AuthorizationStatus.NoAuth)),
