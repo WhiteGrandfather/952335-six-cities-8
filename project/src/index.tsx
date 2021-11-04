@@ -13,6 +13,8 @@ import {AuthorizationStatus} from './const';
 import {createAPI} from './services/api';
 import {reducer} from './store/reducer';
 import {requireAuthorisation} from './store/action';
+import {ThunkAppDispatch} from './types/action';
+import {checkAuthAction, fetchOffersAction} from './services/api-actions';
 
 const api = createAPI(
   () => store.dispatch(requireAuthorisation(AuthorizationStatus.NoAuth)),
@@ -24,6 +26,9 @@ const store = createStore(
     applyMiddleware(thunk.withExtraArgument(api)),
   ),
 );
+
+(store.dispatch as ThunkAppDispatch)(checkAuthAction());
+(store.dispatch as ThunkAppDispatch)(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>

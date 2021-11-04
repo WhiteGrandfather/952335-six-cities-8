@@ -15,11 +15,12 @@ import {
   requireAuthorisation,
   requireLogout
 } from '../store/action';
+import {arrAdapter} from './adapter';
 
-export const fetchQuestionAction = (): ThunkActionResult => (
+export const fetchOffersAction = (): ThunkActionResult => (
   async (dispatch, _getState, api): Promise<void> => {
     const {data} = await api.get<Offer[]>(APIRoute.Offers);
-    dispatch(loadOffers(data));
+    dispatch(loadOffers(arrAdapter(data)));
   }
 );
 
