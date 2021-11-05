@@ -4,7 +4,10 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import {connect, ConnectedProps} from 'react-redux';
+import {
+  connect,
+  ConnectedProps
+} from 'react-redux';
 
 import {
   AppRoute,
@@ -15,9 +18,10 @@ import Login from '../login/login';
 import Page404 from '../page-404/page404';
 import Property from '../propery/property';
 import PrivetRoute from '../privet-route/privet-route';
-
 import type {State} from '../../types/state';
 import LoadingScreen from '../loading-screen/loading-screen';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 const mapStateToProps = ({authorizationStatus, isDataLoaded}: State)=> ({
   authorizationStatus,

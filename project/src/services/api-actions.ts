@@ -1,4 +1,4 @@
-import {AxiosResponse} from 'axios';
+import {toast} from 'react-toastify';
 
 import {
   APIRoute,
@@ -26,12 +26,21 @@ export const fetchOffersAction = (): ThunkActionResult => (
   }
 );
 
+const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
+
 export const checkAuthAction = (): ThunkActionResult => (
   async (dispatch,  _getState, api) => {
-    const {payload} = await api.get<AxiosResponse, {payload: AuthorizationStatus}>(APIRoute.Login);
-    if (payload === AuthorizationStatus.Auth) {
-      dispatch(requireAuthorisation(AuthorizationStatus.Auth));
-    }
+
+    await api.get(APIRoute.Login).then((itm:any): void =>{
+      if (itm.payload === AuthorizationStatus.Auth || itm.status === 200) {
+        dispatch(requireAuthorisation(AuthorizationStatus.Auth));
+      } else {
+        // eslint-disable-next-line no-console
+        console.log('asd',itm);
+        toast.info(AUTH_FAIL_MESSAGE);
+      }
+    });
+
   }
 );
 
