@@ -35,8 +35,6 @@ export const checkAuthAction = (): ThunkActionResult => (
       if (itm.payload === AuthorizationStatus.Auth || itm.status === 200) {
         dispatch(requireAuthorisation(AuthorizationStatus.Auth));
       } else {
-        // eslint-disable-next-line no-console
-        console.log('asd',itm);
         toast.info(AUTH_FAIL_MESSAGE);
       }
     });
