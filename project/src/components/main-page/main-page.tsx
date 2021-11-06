@@ -17,6 +17,7 @@ import type {
 import type {Offer} from '../../types/offer-type';
 import type {State} from '../../types/state';
 import SortList from '../sort-list/sort-list';
+import {ToastContainer} from 'react-toastify';
 
 // Минимальное количество Offer
 const MIN_OFFERS = 0;
@@ -135,6 +136,7 @@ function MainPage({currentCity, offers, sortOfferBy}: PropsFromRedux): JSX.Eleme
 
         {isOffers()}
       </main>
+      <ToastContainer/>
     </div>
   );
 }

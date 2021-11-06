@@ -1,3 +1,5 @@
+import {toast} from 'react-toastify';
+
 import {
   APIRoute,
   AuthorizationStatus
@@ -7,9 +9,9 @@ import {
   saveToken,
   dropToken,
   Token
-} from '../services/token';
+} from './token';
 import {AuthData} from '../types/auth-data';
-import {Offer} from '..//types/offer-type';
+import {Offer} from '../types/offer-type';
 import {
   loadOffers,
   requireAuthorisation,
@@ -24,12 +26,19 @@ export const fetchOffersAction = (): ThunkActionResult => (
   }
 );
 
+const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
+
 export const checkAuthAction = (): ThunkActionResult => (
   async (dispatch,  _getState, api) => {
-    await api.get(APIRoute.Login)
-      .then(()=>{
+
+    await api.get(APIRoute.Login).then((itm:any): void =>{
+      if (itm.payload === AuthorizationStatus.Auth || itm.status === 200) {
         dispatch(requireAuthorisation(AuthorizationStatus.Auth));
-      });
+      } else {
+        toast.info(AUTH_FAIL_MESSAGE);
+      }
+    });
+
   }
 );
 
