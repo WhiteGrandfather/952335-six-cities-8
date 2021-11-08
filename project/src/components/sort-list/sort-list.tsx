@@ -1,8 +1,11 @@
-import React, {Dispatch, useState} from 'react';
-import {State} from '../../types/state';
-import {connect, ConnectedProps} from 'react-redux';
-import {Actions} from '../../types/action';
+import React, {useState} from 'react';
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
+
 import {changeOfferSort} from '../../store/action';
+import {getSortOfferBy} from '../../store/offers-data/selector';
 import {SortBy} from '../../const';
 
 const TAB_INDEX = 0;
@@ -13,20 +16,10 @@ const SORT_ITEMS: string[] = [
   SortBy.TopRated,
 ];
 
-const mapStateToProps = ({sortOfferBy}: State )=> ({
-  sortOfferBy,
-});
+function SortList(): JSX.Element {
+  const sortOfferBy = useSelector(getSortOfferBy);
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onSortClick(item: string) {
-    dispatch(changeOfferSort(item));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux =ConnectedProps<typeof connector>;
-
-function SortList({sortOfferBy, onSortClick}: PropsFromRedux): JSX.Element {
   const [showList, setShowList] = useState<boolean>(false);
   return (
     <form className="places__sorting"
@@ -48,7 +41,7 @@ function SortList({sortOfferBy, onSortClick}: PropsFromRedux): JSX.Element {
           <li className={`places__option ${sortOfferBy===item?'places__option--active':''}`}
             tabIndex={TAB_INDEX}
             onClick={()=>{
-              onSortClick(item);
+              dispatch(changeOfferSort(item));
               setShowList(false);
             }}
             key={`sort-${item}`}
@@ -62,5 +55,4 @@ function SortList({sortOfferBy, onSortClick}: PropsFromRedux): JSX.Element {
   );
 }
 
-export {SortList};
-export default connector(SortList);
+export default SortList;

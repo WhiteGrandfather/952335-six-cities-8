@@ -3,49 +3,41 @@ import React, {
   useRef
 } from 'react';
 import {
-  connect,
-  ConnectedProps
+  useDispatch,
+  useSelector
 } from 'react-redux';
-import {useHistory, Redirect, Link} from 'react-router-dom';
+import {
+  useHistory,
+  Redirect,
+  Link
+} from 'react-router-dom';
 
-
-import {ThunkAppDispatch} from '../../types/action';
-import {AuthData} from '../../types/auth-data';
+import {
+  AppRoute,
+  AuthorizationStatus
+} from '../../const';
+import {getAuthorizationStatus} from '../../store/user-process/selector';
+import Header from '../header/header';
 import {loginAction} from '../../services/api-actions';
 import {ToastContainer} from 'react-toastify';
-import {AppRoute, AuthorizationStatus} from '../../const';
-import {State} from '../../types/state';
-import Header from '../header/header';
 
-const mapDispatchToProps = (dispatch: ThunkAppDispatch) => ({
-  onSubmit(authData: AuthData) {
-    dispatch(loginAction(authData));
-  },
-});
+function Login(): JSX.Element {
+  const authorizationStatus = useSelector(getAuthorizationStatus);
 
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-const mapStateToProps = ({authorizationStatus}: State)=> ({
-  authorizationStatus,
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function Login({onSubmit, authorizationStatus}: PropsFromRedux): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const history = useHistory();
-
-  function submit(evt : FormEvent< HTMLFormElement>): void {
+  function renderSubmit(evt : FormEvent< HTMLFormElement>): void {
     evt.preventDefault();
     if (loginRef.current !== null && passwordRef.current !== null) {
-      onSubmit({
+      dispatch(loginAction({
         login: loginRef.current.value,
         password: passwordRef.current.value,
-      });
+      }));
     }
-
   }
 
   if (authorizationStatus === AuthorizationStatus.Auth) {
@@ -65,7 +57,7 @@ function Login({onSubmit, authorizationStatus}: PropsFromRedux): JSX.Element {
           <section className="login">
             <h1 className="login__title">Sign in</h1>
             <form className="login__form form"
-              onSubmit={submit}
+              onSubmit={renderSubmit}
             >
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
@@ -103,5 +95,4 @@ function Login({onSubmit, authorizationStatus}: PropsFromRedux): JSX.Element {
   );
 }
 
-export {Login};
-export default connector(Login);
+export default Login;

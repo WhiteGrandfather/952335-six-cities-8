@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom';
 
 import type {
   PlaceCardItemProps,
-  Multiplier } from './type';
-
+  Multiplier
+} from './type';
 import type {Offer} from '../../types/offer-type';
 
 export default function PlaceCardItem ({

@@ -4,12 +4,14 @@ import {
   Route,
   useLocation
 } from 'react-router-dom';
+import {useSelector} from 'react-redux';
 
 import Header from '../header/header';
 import ReviewList from '../review-list/review-list';
 import {Reviews} from '../../mocks/reviews';
 import {Review} from '../../types/review';
 import Map from '../map/map';
+import {getOffers} from '../../store/offers-data/selector';
 
 import type {PropertyProps} from './types';
 import type {Multiplier} from '../place-card-item/type';
@@ -17,25 +19,9 @@ import type {
   City,
   Points
 } from '../../types/map-type';
-import {State} from '../../types/state';
-import {connect, ConnectedProps} from 'react-redux';
 
-
-//Подготавливает типы для props из Redux store
-const mapStateToProps = ({offers}: State) => ({
-  offers,
-});
-
-//Создает константу connector для подключения props из Redux в компонент
-const connector = connect(mapStateToProps);
-
-// Подготавливает типы props для компонента
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export function Property({
-  isLoggedIn,
-  offers,
-}: PropertyProps & PropsFromRedux): JSX.Element {
+export function Property({isLoggedIn}: PropertyProps): JSX.Element {
+  const offers = useSelector(getOffers);
 
   const STARS_MULTIPLIER: Multiplier = 20;
   const [ReviewsList, setReviewsList] = useState(Reviews);
@@ -320,4 +306,4 @@ export function Property({
 
 }
 
-export default connector(Property);
+export default Property;

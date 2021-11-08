@@ -1,12 +1,11 @@
-import React, {Dispatch} from 'react';
-import {State} from '../../types/state';
+import React from 'react';
 import {
-  connect,
-  ConnectedProps
+  useDispatch,
+  useSelector
 } from 'react-redux';
 
-import {Actions} from '../../types/action';
 import {changeCurrentCity} from '../../store/action';
+import {getCurrentCity} from '../../store/offers-data/selector';
 
 const CITY_LIST: string[] = [
   'Paris',
@@ -17,20 +16,10 @@ const CITY_LIST: string[] = [
   'Dusseldorf',
 ];
 
-const mapStateToProps = ({currentCity}: State) => ({
-  currentCity,
-});
+function TabsList():JSX.Element {
+  const currentCity = useSelector(getCurrentCity);
 
-const mapDispatchToProps = (dispatch: Dispatch<Actions>) => ({
-  onCityClick(item: string) {
-    dispatch(changeCurrentCity(item));
-  },
-});
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>
-
-function TabsList({currentCity, onCityClick}:PropsFromRedux):JSX.Element {
+  const dispatch = useDispatch();
 
   const cityList: JSX.Element[] = CITY_LIST.map((item)=> {
     const isActive: string = currentCity === item ?'tabs__item--active':'';
@@ -40,7 +29,7 @@ function TabsList({currentCity, onCityClick}:PropsFromRedux):JSX.Element {
         key={`ct-${item}`}
       >
         <a className={`locations__item-link tabs__item ${isActive}`}
-          onClick={()=>onCityClick(item)}
+          onClick={()=>dispatch(changeCurrentCity(item))}
         >
           <span>{item}</span>
         </a>
@@ -59,5 +48,4 @@ function TabsList({currentCity, onCityClick}:PropsFromRedux):JSX.Element {
   );
 }
 
-export {TabsList};
-export default connector(TabsList);
+export default TabsList;
