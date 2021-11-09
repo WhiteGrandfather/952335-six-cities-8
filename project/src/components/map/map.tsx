@@ -1,4 +1,7 @@
-import React, {useEffect, useRef} from 'react';
+import React, {
+  useEffect,
+  useRef
+} from 'react';
 import useMap from '../../hooks/useMap';
 
 import type {MapProps} from './type';
@@ -20,7 +23,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [20, 40],
 });
 
-export default function Map({
+function Map({
   city,
   points,
   onHoverId}: MapProps): JSX.Element {
@@ -53,3 +56,8 @@ export default function Map({
     </div>
   );
 }
+
+export default React.memo(
+  Map,
+  (prevProps, nextProps) =>prevProps.onHoverId === nextProps.onHoverId,
+);

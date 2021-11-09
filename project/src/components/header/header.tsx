@@ -1,27 +1,16 @@
 import React from 'react';
-import {
-  connect,
-  ConnectedProps
-} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
 import {
   APIRoute,
   AuthorizationStatus
 } from '../../const';
+import {getAuthorizationStatus} from '../../store/user-process/selector';
 import {HeaderProps} from './types';
-import {State} from '../../types/state';
 
-//Подготавливает типы для props из Redux store
-const mapStateToProps = ({authorizationStatus}: State) => ({authorizationStatus});
-
-//Создает константу connector для подключения props из Redux в компонент
-const connector = connect(mapStateToProps);
-
-// Подготавливает типы props для компонента
-type PropsFromRedux = HeaderProps & ConnectedProps<typeof connector>;
-
-function Header({ShowNav, authorizationStatus}: PropsFromRedux): JSX.Element {
+function Header({ShowNav}: HeaderProps): JSX.Element {
+  const authorizationStatus = useSelector(getAuthorizationStatus);
 
   const isLogged = (
     <nav className="header__nav">
@@ -76,5 +65,4 @@ function Header({ShowNav, authorizationStatus}: PropsFromRedux): JSX.Element {
   );
 }
 
-export {Header};
-export default connector(Header);
+export default Header;

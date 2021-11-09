@@ -1,7 +1,6 @@
 import React from 'react';
 
 import PlaceCardItem from '../place-card-item/place-card-item';
-
 import type {PlaceCardListProps} from './type';
 import type {Offer} from '../../types/offer-type';
 
@@ -20,4 +19,5 @@ function PlaceCardList({Offers, getHoverOffer}: PlaceCardListProps): JSX.Element
   );
 }
 
-export default PlaceCardList;
+export default React.memo(PlaceCardList,
+  (prevProps, nextProps)=>prevProps.Offers=== nextProps.Offers);

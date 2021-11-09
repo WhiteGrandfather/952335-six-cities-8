@@ -3,7 +3,8 @@ import React, {useState} from 'react';
 import ReviewItem from '../review-item/review-item';
 import {
   ReviewsListProps,
-  maxId } from './types';
+  maxId
+} from './types';
 
 export default function ReviewList({
   ReviewsList,

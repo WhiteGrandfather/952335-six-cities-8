@@ -4,35 +4,28 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import {
-  connect,
-  ConnectedProps
-} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import {
   AppRoute,
   AuthorizationStatus
 } from '../../const';
-import MainPage from '../main-page/main-page';
+import {
+  getAuthorizationStatus,
+  getIsDataLoaded
+} from '../../store/user-process/selector';
 import Login from '../login/login';
+import MainPage from '../main-page/main-page';
 import Page404 from '../page-404/page404';
 import Property from '../propery/property';
 import PrivetRoute from '../privet-route/privet-route';
-import type {State} from '../../types/state';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 import 'react-toastify/dist/ReactToastify.css';
 
-const mapStateToProps = ({authorizationStatus, isDataLoaded}: State)=> ({
-  authorizationStatus,
-  isDataLoaded,
-});
-
-const connector = connect(mapStateToProps);
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-function App(props: PropsFromRedux): JSX.Element {
-  const {authorizationStatus, isDataLoaded} = props;
+function App(): JSX.Element {
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const isDataLoaded = useSelector(getIsDataLoaded);
 
   if (authorizationStatus === AuthorizationStatus.Unknown || !isDataLoaded) {
     return <LoadingScreen/>;
@@ -63,5 +56,4 @@ function App(props: PropsFromRedux): JSX.Element {
   );
 }
 
-export {App};
-export default connector(App);
+export default App;

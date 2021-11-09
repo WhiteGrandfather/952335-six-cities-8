@@ -1,8 +1,5 @@
 import React, {useState} from 'react';
-import {
-  connect,
-  ConnectedProps
-} from 'react-redux';
+import {useSelector} from 'react-redux';
 
 import Header from '../header/header';
 import Map from '../map/map';
@@ -15,30 +12,21 @@ import type {
   Points
 } from '../../types/map-type';
 import type {Offer} from '../../types/offer-type';
-import type {State} from '../../types/state';
 import SortList from '../sort-list/sort-list';
 import {ToastContainer} from 'react-toastify';
+import {
+  getCurrentCity,
+  getOffers,
+  getSortOfferBy
+} from '../../store/offers-data/selector';
 
 // Минимальное количество Offer
 const MIN_OFFERS = 0;
 
-//Подготавливает типы для props из Redux store
-const mapStateToProps = ({currentCity, offers, sortOfferBy}: State) => ({
-  currentCity,
-  sortOfferBy,
-  offers,
-});
-
-//Создает константу connector для подключения props из Redux в компонент
-const connector = connect(mapStateToProps);
-
-// Подготавливает типы props для компонента
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-// currentCity = string (выбранный город сортировки)
-// offers = массив Offer (предложения аренды)
-// sortOfferBy = string (вид сортировки)
-function MainPage({currentCity, offers, sortOfferBy}: PropsFromRedux): JSX.Element {
+function MainPage(): JSX.Element {
+  const currentCity = useSelector(getCurrentCity); // currentCity = string (выбранный город сортировки)
+  const offers = useSelector(getOffers); // offers = массив Offer (предложения аренды)
+  const sortOfferBy = useSelector(getSortOfferBy); // sortOfferBy = string (вид сортировки)
 
   const [onHoverId, setOnHoverId] = useState<number | null>(null);
   const [city, setCity] = useState<City | null>(null);
@@ -141,5 +129,4 @@ function MainPage({currentCity, offers, sortOfferBy}: PropsFromRedux): JSX.Eleme
   );
 }
 
-export {MainPage};
-export default connector(MainPage);
+export default MainPage;

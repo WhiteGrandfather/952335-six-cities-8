@@ -4,8 +4,8 @@ import Header from '../header/header';
 import PlaceCardItem from '../place-card-item/place-card-item';
 import {Offer} from '../../types/offer-type';
 import {FavoritesListProps} from '../app/types';
-import {State} from '../../types/state';
-import {connect, ConnectedProps} from 'react-redux';
+import {useSelector} from 'react-redux';
+import {getOffers} from '../../store/offers-data/selector';
 
 
 function getFavoritesList (array: Offer[]): FavoritesListProps[] {
@@ -21,20 +21,8 @@ function getFavoritesList (array: Offer[]): FavoritesListProps[] {
   }));
 }
 
-
-//Подготавливает типы для props из Redux store
-const mapStateToProps = ({offers}: State) => ({
-  offers,
-});
-
-//Создает константу connector для подключения props из Redux в компонент
-const connector = connect(mapStateToProps);
-
-// Подготавливает типы props для компонента
-type PropsFromRedux = ConnectedProps<typeof connector>;
-
-
-export function Favorites({offers}: PropsFromRedux): JSX.Element {
+export function Favorites(): JSX.Element {
+  const offers = useSelector(getOffers);
 
   function renderFavList(): JSX.Element[] {
     const arrLIst = getFavoritesList(offers).map(({favName, favList}) => {
@@ -82,4 +70,4 @@ export function Favorites({offers}: PropsFromRedux): JSX.Element {
   );
 }
 
-export default connector(Favorites);
+export default Favorites;
