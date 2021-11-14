@@ -1,32 +1,28 @@
 import React from 'react';
 import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
+import {
   Link,
   useHistory
 } from 'react-router-dom';
 
-import type {
-  PlaceCardItemProps,
-  Multiplier
-} from './type';
-import type {Offer} from '../../types/offer-type';
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux';
+import {Offer} from '../../types/offer-type';
+import {Multiplier} from '../place-card-item/type';
 import {changeFavoriteCityAction} from '../../services/api-actions';
+import {getAuthorizationStatus} from '../../store/user-process/selector';
 import {
   APIRoute,
   AuthorizationStatus
 } from '../../const';
-import {getAuthorizationStatus} from '../../store/user-process/selector';
 
-export default function PlaceCardItem ({
-  Offer,
-  favorites,
-  getHoverOffer,
-}: PlaceCardItemProps): JSX.Element {
+type NearbyItemProps = {
+  nearby: Offer,
+};
+
+export default function NearbyItem({nearby}: NearbyItemProps): JSX.Element {
   const {
-    isPremium,
     isFavorite,
     previewImage,
     price,
@@ -34,29 +30,24 @@ export default function PlaceCardItem ({
     title,
     type,
     id,
-  }: Offer = Offer;
+  }: Offer = nearby;
+
+  const STARS_MULTIPLIER: Multiplier = 20;
+  const ratingPercent = rating * STARS_MULTIPLIER;
 
   const history = useHistory();
   const dispatch = useDispatch();
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const isLoggedIn = authorizationStatus === AuthorizationStatus.Auth;
 
-  const STARS_MULTIPLIER: Multiplier = 20;
-
-  const mark: JSX.Element = <div className="place-card__mark"><span>Premium</span></div>;
-  const ratingPercent = rating * STARS_MULTIPLIER;
-
   return (
-    <article className={`${favorites?'favorites__card':'cities__place-card'} place-card`}
-      onMouseEnter={()=>getHoverOffer && getHoverOffer(id)}
-    >
-      {isPremium?mark:null}
-      <div className={`${favorites?'favorites__image-wrapper':'cities__image-wrapper'} place-card__image-wrapper`}>
+    <article className="near-places__card place-card">
+      <div className="near-places__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/:id?${id}`}>
           <img className="place-card__image"
             src={previewImage}
-            width={favorites?'150':'260'}
-            height={favorites?'110':'200'}
+            width="260"
+            height="200"
             alt="Place image"
           />
         </Link>
@@ -80,7 +71,7 @@ export default function PlaceCardItem ({
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"/>
             </svg>
-            <span className="visually-hidden">To bookmarks</span>
+            <span className="visually-hidden">In bookmarks</span>
           </button>
         </div>
         <div className="place-card__rating rating">
@@ -92,8 +83,9 @@ export default function PlaceCardItem ({
         <h2 className="place-card__name">
           <Link to={`/offer/:id?${id}`}>{title}</Link>
         </h2>
-        <p className="place-card__type" style={{textTransform: 'capitalize'}}>{type}</p>
+        <p className="place-card__type">{type}</p>
       </div>
     </article>
   );
 }
+

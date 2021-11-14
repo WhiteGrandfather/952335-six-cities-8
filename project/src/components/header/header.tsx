@@ -1,29 +1,48 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
 import {Link} from 'react-router-dom';
 
 import {
   APIRoute,
+  AppRoute,
   AuthorizationStatus
 } from '../../const';
-import {getAuthorizationStatus} from '../../store/user-process/selector';
+import {
+  getAuthInfo,
+  getAuthorizationStatus
+} from '../../store/user-process/selector';
 import {HeaderProps} from './types';
+import {logoutAction} from '../../services/api-actions';
 
 function Header({ShowNav}: HeaderProps): JSX.Element {
+  const {
+    email,
+    avatarUrl,
+  } = useSelector(getAuthInfo);
   const authorizationStatus = useSelector(getAuthorizationStatus);
+  const dispatch = useDispatch();
 
   const isLogged = (
     <nav className="header__nav">
       <ul className="header__nav-list">
         <li className="header__nav-item user">
-          <a className="header__nav-link header__nav-link--profile" href="#">
-            <div className="header__avatar-wrapper user__avatar-wrapper">
-            </div>
-            <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-          </a>
+          <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
+            <div className="header__avatar-wrapper user__avatar-wrapper"
+              style={{backgroundImage: `url(${avatarUrl})`}}
+            />
+            <span className="header__user-name user__name">
+              {email}
+            </span>
+          </Link>
         </li>
         <li className="header__nav-item">
-          <Link className="header__nav-link" to="/">
+          <Link className="header__nav-link"
+            to="/"
+            onClick={()=> dispatch(logoutAction())}
+          >
             <span className="header__signout">Sign out</span>
           </Link>
         </li>

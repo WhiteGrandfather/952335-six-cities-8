@@ -7,3 +7,8 @@ export type Review = {
   rating: number,
   user: Host,
 };
+
+export type ReviewPost = {
+  comment: string,
+  rating: number,
+};

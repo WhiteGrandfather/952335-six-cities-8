@@ -44,9 +44,7 @@ function App(): JSX.Element {
           <PrivetRoute/>
         </Route>
         <Route exact path={AppRoute.Property}>
-          <Property
-            isLoggedIn={isDataLoaded}
-          />
+          <Property/>
         </Route>
         <Route>
           <Page404/>

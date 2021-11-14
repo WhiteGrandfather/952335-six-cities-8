@@ -1,4 +1,6 @@
 import {Offer} from '../types/offer-type';
+import {AuthInfo} from '../types/state';
+import {Review} from '../types/review';
 
 export function adapter(item: any | Offer): Offer {
   const {
@@ -43,4 +45,47 @@ export function adapter(item: any | Offer): Offer {
 
 export function arrAdapter(array: Offer[]): Offer[] {
   return array.map((item: Offer) =>adapter(item));
+}
+
+export function authInfoAdapter(item: any | AuthInfo): AuthInfo {
+  const {
+    email,
+    id,
+    name,
+  } = item;
+
+  return {
+    avatarUrl: item.avatar_url,
+    email,
+    id,
+    isPro: item.is_pro,
+    name,
+  };
+}
+
+export function reviewAdapter(review: Review | any): Review {
+  const {
+    comment,
+    date,
+    id,
+    rating,
+    user,
+  } = review;
+
+  return {
+    comment,
+    date,
+    id,
+    rating,
+    user: {
+      avatarUrl: user.avatar_url,
+      id: user.id,
+      isPro: user.is_pro,
+      name: user.name,
+    },
+  };
+}
+
+export function reviewArrAdapter(reviewArr: Review[]): Review[] {
+  return reviewArr.map((item: Review) =>reviewAdapter(item));
 }

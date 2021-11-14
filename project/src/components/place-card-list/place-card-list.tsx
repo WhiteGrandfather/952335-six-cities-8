@@ -4,7 +4,10 @@ import PlaceCardItem from '../place-card-item/place-card-item';
 import type {PlaceCardListProps} from './type';
 import type {Offer} from '../../types/offer-type';
 
-function PlaceCardList({Offers, getHoverOffer}: PlaceCardListProps): JSX.Element {
+function PlaceCardList({
+  Offers,
+  getHoverOffer,
+}: PlaceCardListProps): JSX.Element {
   return (
     <>
       {Offers.map((item: Offer) => (

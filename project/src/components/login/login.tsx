@@ -1,6 +1,8 @@
 import React, {
   FormEvent,
-  useRef
+  useEffect,
+  useRef,
+  useState
 } from 'react';
 import {
   useDispatch,
@@ -14,21 +16,34 @@ import {
 
 import {
   AppRoute,
-  AuthorizationStatus
+  AuthorizationStatus,
+  CITY_LIST
 } from '../../const';
 import {getAuthorizationStatus} from '../../store/user-process/selector';
 import Header from '../header/header';
 import {loginAction} from '../../services/api-actions';
 import {ToastContainer} from 'react-toastify';
+import {changeCurrentCity} from '../../store/action';
 
 function Login(): JSX.Element {
   const authorizationStatus = useSelector(getAuthorizationStatus);
+
+  const [city, setCity] = useState<string | null>(null);
 
   const dispatch = useDispatch();
   const history = useHistory();
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+
+  const getRandom = (list: string[]): string => {
+    const randomNumber = Math.round(((Math.random() * 100) / (100 / (list.length - 1))));
+    return list[randomNumber];
+  };
+
+  useEffect(() => {
+    setCity(getRandom(CITY_LIST));
+  }, []);
 
   function renderSubmit(evt : FormEvent< HTMLFormElement>): void {
     evt.preventDefault();
@@ -83,8 +98,17 @@ function Login(): JSX.Element {
           </section>
           <section className="locations locations--login locations--current">
             <div className="locations__item">
-              <Link className="locations__item-link" to="/" >
-                <span>Amsterdam</span>
+              <Link className="locations__item-link"
+                to={AppRoute.Root}
+                onClick={() => {
+                  if (city !== null) {
+                    dispatch(changeCurrentCity(city));
+                  }
+                }}
+              >
+                <span>
+                  {city}
+                </span>
               </Link>
             </div>
           </section>
