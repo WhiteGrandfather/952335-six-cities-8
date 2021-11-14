@@ -16,6 +16,7 @@ export enum APIRoute {
     Login = '/login',
     Logout = '/logout',
     Favorite = '/favorite',
+    Reviews = '/comments'
 }
 
 export enum SortBy {
@@ -24,3 +25,14 @@ export enum SortBy {
     HighPrice = 'Price: high to low',
     TopRated = 'Top rated first',
 }
+
+export const CITY_LIST: string[] = [
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Amsterdam',
+  'Hamburg',
+  'Dusseldorf',
+];
+
+export const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';

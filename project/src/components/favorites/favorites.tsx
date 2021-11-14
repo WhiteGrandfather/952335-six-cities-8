@@ -1,51 +1,74 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import Header from '../header/header';
 import PlaceCardItem from '../place-card-item/place-card-item';
 import {Offer} from '../../types/offer-type';
 import {FavoritesListProps} from '../app/types';
-import {useSelector} from 'react-redux';
-import {getOffers} from '../../store/offers-data/selector';
-
-
-function getFavoritesList (array: Offer[]): FavoritesListProps[] {
-  const cityList = array
-    .filter((item)=> item.isFavorite)
-    .map((item) => item.city.name);
-
-  const unicsCityList: string[] = [...new Set(cityList)];
-
-  return unicsCityList.map((item) => ({
-    favName: item,
-    favList: array.filter((el) => item === el.city.name && el.isFavorite),
-  }));
-}
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
+import {getFavorites} from '../../store/user-process/selector';
+import {fetchFavoritesAction} from '../../services/api-actions';
+import {AppRoute} from '../../const';
+import {Link} from 'react-router-dom';
+import {changeCurrentCity} from '../../store/action';
 
 export function Favorites(): JSX.Element {
-  const offers = useSelector(getOffers);
 
-  function renderFavList(): JSX.Element[] {
-    const arrLIst = getFavoritesList(offers).map(({favName, favList}) => {
-      const cardList = favList.map((item) => <PlaceCardItem Offer={item} favorites key={`${item.id}-card`}/>);
+  const dispatch = useDispatch();
+  const favorites = useSelector(getFavorites);
 
-      return (
-        <li className="favorites__locations-items" key={favName}>
-          <div className="favorites__locations locations locations--current">
-            <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>{favName}</span>
-              </a>
-            </div>
-          </div>
-          <div className="favorites__places">
-            {cardList}
-          </div>
-        </li>
-      );
-    });
+  useEffect(()=> {
+    dispatch(fetchFavoritesAction());
+  },[favorites]);
 
-    return arrLIst;
+  function getFavoritesList (array: Offer[]): FavoritesListProps[] {
+    const cityList = array
+      .filter((item)=> item.isFavorite)
+      .map((item) => item.city.name);
+
+    const unicsCityList: string[] = [...new Set(cityList)];
+
+    return unicsCityList.map((item) => ({
+      favName: item,
+      favList: array.filter((el) => item === el.city.name && el.isFavorite),
+    }));
   }
+
+  let favoriteList: JSX.Element[] | null = null;
+
+  if (favorites.length > 0) {
+    favoriteList = getFavoritesList(favorites).map(({favName, favList}) => (
+      <li className="favorites__locations-items"
+        key={favName}
+      >
+        <div className="favorites__locations locations locations--current">
+          <div className="locations__item">
+            <Link className="locations__item-link"
+              to={AppRoute.Root}
+              onClick={()=>dispatch(changeCurrentCity(favName))}
+            >
+              <span>{favName}</span>
+            </Link>
+          </div>
+        </div>
+        <div className="favorites__places">
+          {favList.map((item) => <PlaceCardItem Offer={item} favorites key={`${item.id}-card`}/>)}
+        </div>
+      </li>
+    ));
+  }
+
+  const noFavorites = (
+    <section className="favorites favorites--empty">
+      <h1 className="visually-hidden">Favorites (empty)</h1>
+      <div className="favorites__status-wrapper">
+        <b className="favorites__status">Nothing yet saved.</b>
+        <p className="favorites__status-description">Save properties to narrow down search or plan your future trips.</p>
+      </div>
+    </section>
+  );
 
   return (
     <div className="page">
@@ -56,7 +79,7 @@ export function Favorites(): JSX.Element {
           <section className="favorites">
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
-              {renderFavList()}
+              {favoriteList !== null? favoriteList : noFavorites}
             </ul>
           </section>
         </div>

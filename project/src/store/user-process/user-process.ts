@@ -1,13 +1,26 @@
 import {AuthorizationStatus} from '../../const';
 import {UserData} from '../../types/state';
 import {createReducer} from '@reduxjs/toolkit';
-import {requireAuthorisation, requireLogout} from '../action';
+import {
+  addAuthInfo,
+  loadFavorites,
+  requireAuthorisation,
+  requireLogout
+} from '../action';
+import {authInfoAdapter} from '../../services/adapter';
 
 const initialState: UserData = {
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.Unknown,
+  favoritesCity: [],
+  authInfo: {
+    avatarUrl: '',
+    email: '',
+    id: 0,
+    isPro: false,
+    name: '',
+  },
 };
-
 
 const userProcess = createReducer(initialState, (builder) => {
   builder
@@ -17,6 +30,14 @@ const userProcess = createReducer(initialState, (builder) => {
     })
     .addCase(requireLogout, (state) => {
       state.authorizationStatus = AuthorizationStatus.NoAuth;
+      state.authInfo = initialState.authInfo;
+      state.favoritesCity = [];
+    })
+    .addCase(addAuthInfo, (state, action) => {
+      state.authInfo = authInfoAdapter(action.payload);
+    })
+    .addCase(loadFavorites, (state, action) => {
+      state.favoritesCity = action.payload;
     });
 });
 

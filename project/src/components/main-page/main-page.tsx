@@ -15,10 +15,10 @@ import type {Offer} from '../../types/offer-type';
 import SortList from '../sort-list/sort-list';
 import {ToastContainer} from 'react-toastify';
 import {
-  getCurrentCity,
   getOffers,
   getSortOfferBy
 } from '../../store/offers-data/selector';
+import {getCurrentCity} from '../../store/city-process/selector';
 
 // Минимальное количество Offer
 const MIN_OFFERS = 0;

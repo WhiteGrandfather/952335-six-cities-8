@@ -5,16 +5,8 @@ import {
 } from 'react-redux';
 
 import {changeCurrentCity} from '../../store/action';
-import {getCurrentCity} from '../../store/offers-data/selector';
-
-const CITY_LIST: string[] = [
-  'Paris',
-  'Cologne',
-  'Brussels',
-  'Amsterdam',
-  'Hamburg',
-  'Dusseldorf',
-];
+import {getCurrentCity} from '../../store/city-process/selector';
+import {CITY_LIST} from '../../const';
 
 function TabsList():JSX.Element {
   const currentCity = useSelector(getCurrentCity);
