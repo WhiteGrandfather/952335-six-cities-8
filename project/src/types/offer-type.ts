@@ -1,10 +1,10 @@
-type Locations = {
+export type Locations = {
   latitude: number,
   longitude: number,
   zoom: number,
 };
 
-type City = {
+export type City = {
   location: Locations,
   name: string,
 }

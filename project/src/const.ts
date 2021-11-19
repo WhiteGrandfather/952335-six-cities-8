@@ -35,4 +35,13 @@ export const CITY_LIST: string[] = [
   'Dusseldorf',
 ];
 
+export const FAKE_ARRAY_LENGTH = 3;
+
+export const OfferType: {[key: string]: string} = {
+  room: 'Private room',
+  house: 'House',
+  apartment: 'Apartment',
+  hotel: 'Hotel',
+} as const;
+
 export const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';

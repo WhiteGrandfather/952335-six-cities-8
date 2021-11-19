@@ -7,7 +7,7 @@ import {
   resetProperty
 } from '../action';
 
-const initialState: PropertyData = {
+export const initialState: PropertyData = {
   propertyData: null,
   reviews: [],
   nearby: [],

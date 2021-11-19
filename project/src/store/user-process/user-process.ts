@@ -41,4 +41,4 @@ const userProcess = createReducer(initialState, (builder) => {
     });
 });
 
-export {userProcess};
+export {userProcess , initialState};
