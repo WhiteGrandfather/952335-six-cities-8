@@ -1,5 +1,5 @@
 import {ActionType} from '../types/action';
-import {Offer} from '../types/offer-type';
+import {Offer, OfferBackend} from '../types/offer-type';
 import {createAction} from '@reduxjs/toolkit';
 import {AuthInfo} from '../types/state';
 import {Review} from '../types/review';
@@ -41,8 +41,8 @@ export const addAuthInfo = createAction(
 
 export const changeFavoriteCity = createAction(
   ActionType.ChangeFavoriteCity,
-  (cities: Offer[]) => ({
-    payload: cities,
+  (city: OfferBackend) => ({
+    payload: city,
   }),
 );
 

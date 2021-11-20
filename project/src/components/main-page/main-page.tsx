@@ -86,11 +86,11 @@ function MainPage(): JSX.Element {
   const isOffers = (): JSX.Element => {
     if (isEmptyPage) {
       //Возвращает компонент нет предложений
-      return <MainEmpty/>;
+      return <MainEmpty city={currentCity}/>;
     } else {
       // Возвращает список предложений аренды и карту
       return (
-        <div className="cities">
+        <div className="cities" data-testid="main-page">
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>

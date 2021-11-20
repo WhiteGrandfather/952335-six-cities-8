@@ -9,7 +9,7 @@ function PlaceCardList({
   getHoverOffer,
 }: PlaceCardListProps): JSX.Element {
   return (
-    <>
+    < >
       {Offers.map((item: Offer) => (
         <PlaceCardItem
           Offer={item}

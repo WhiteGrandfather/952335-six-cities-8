@@ -63,7 +63,7 @@ function Login(): JSX.Element {
   }
 
   return (
-    <div className="page page--gray page--login">
+    <div className="page page--gray page--login" data-testid="login">
 
       <Header ShowNav={false} />
 
@@ -74,7 +74,7 @@ function Login(): JSX.Element {
             <form className="login__form form"
               onSubmit={renderSubmit}
             >
-              <div className="login__input-wrapper form__input-wrapper">
+              <div className="login__input-wrapper form__input-wrapper" data-testid="email">
                 <label className="visually-hidden">E-mail</label>
                 <input className="login__input form__input"
                   ref={loginRef}
@@ -84,7 +84,7 @@ function Login(): JSX.Element {
                   required
                 />
               </div>
-              <div className="login__input-wrapper form__input-wrapper">
+              <div className="login__input-wrapper form__input-wrapper" data-testid="password">
                 <label className="visually-hidden">Password</label>
                 <input className="login__input form__input"
                   ref={passwordRef}

@@ -9,7 +9,7 @@ import {
 } from '../action';
 import {authInfoAdapter} from '../../services/adapter';
 
-const initialState: UserData = {
+const initialStateUser: UserData = {
   isDataLoaded: false,
   authorizationStatus: AuthorizationStatus.Unknown,
   favoritesCity: [],
@@ -22,7 +22,7 @@ const initialState: UserData = {
   },
 };
 
-const userProcess = createReducer(initialState, (builder) => {
+const userProcess = createReducer(initialStateUser, (builder) => {
   builder
     .addCase(requireAuthorisation, (state, action) => {
       state.authorizationStatus= action.payload;
@@ -30,7 +30,7 @@ const userProcess = createReducer(initialState, (builder) => {
     })
     .addCase(requireLogout, (state) => {
       state.authorizationStatus = AuthorizationStatus.NoAuth;
-      state.authInfo = initialState.authInfo;
+      state.authInfo = initialStateUser.authInfo;
       state.favoritesCity = [];
     })
     .addCase(addAuthInfo, (state, action) => {
@@ -41,4 +41,7 @@ const userProcess = createReducer(initialState, (builder) => {
     });
 });
 
-export {userProcess , initialState};
+export {
+  userProcess,
+  initialStateUser
+};

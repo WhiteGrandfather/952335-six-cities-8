@@ -6,7 +6,7 @@ import Header from '../header/header';
 
 export default function Page404(): JSX.Element {
   return (
-    <div className="page page--gray page--login">
+    <div className="page page--gray page--login" data-testid="page404">
 
       <Header ShowNav={false}/>
 

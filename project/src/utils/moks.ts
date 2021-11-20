@@ -5,10 +5,11 @@ import {
   image
 } from 'faker';
 import {UserBackend} from '../types/auth-data';
-import {Locations, City, Offer} from '../types/offer-type';
+import {Locations, City, Offer, OfferBackend} from '../types/offer-type';
 import {FAKE_ARRAY_LENGTH, OfferType} from '../const';
 import {AuthInfo} from '../types/state';
 import {getRandomInteger} from './utils';
+import {Review} from '../types/review';
 
 export const getUserBackend = (): UserBackend => ({
   'avatar_url': internet.avatar(),
@@ -30,7 +31,7 @@ export const getCity = (): City => ({
   name: address.city(),
 });
 
-const getUser = (): AuthInfo => ({
+export const getUser = (): AuthInfo => ({
   avatarUrl: internet.avatar(),
   id: datatype.number(),
   isPro: datatype.boolean(),
@@ -57,7 +58,43 @@ export const getOffer = (): Offer => ({
   type: getRandomOfferTypeKey(),
 });
 
+export const getOfferBackend = (): OfferBackend => ({
+  id: datatype.number(),
+  bedrooms: datatype.number(),
+  city: getCity(),
+  description: datatype.string(),
+  goods: new Array(FAKE_ARRAY_LENGTH).fill(null).map(datatype.string),
+  host: getUserBackend(),
+  images: new Array(FAKE_ARRAY_LENGTH).fill(null).map(image.image),
+  'is_favorite': Boolean(getRandomInteger()),
+  'is_premium': Boolean(getRandomInteger()),
+  location: getLocation(),
+  'max_adults': datatype.number(),
+  'preview_image': datatype.string(),
+  price: datatype.number(),
+  rating: datatype.number(),
+  title: datatype.string(),
+  type: datatype.string(),
+});
+
 const getRandomOfferTypeKey = (): string => {
   const typeKeys = Object.keys(OfferType);
   return typeKeys[getRandomInteger(0, typeKeys.length - 1)];
 };
+
+export const getReview = (): Review => ({
+  id: datatype.number(),
+  comment: datatype.string(),
+  date: (new Date()).toISOString(),
+  rating: datatype.number(5),
+  user: getUser(),
+});
+
+export const getAuthInfo = (): AuthInfo => ({
+  avatarUrl: internet.avatar(),
+  email: internet.email(),
+  id: datatype.number(),
+  isPro: datatype.boolean(),
+  name: internet.userName(),
+});
+

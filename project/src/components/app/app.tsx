@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  BrowserRouter,
   Route,
   Switch
 } from 'react-router-dom';
@@ -18,10 +17,10 @@ import Login from '../login/login';
 import MainPage from '../main-page/main-page';
 import Page404 from '../page-404/page404';
 import Property from '../propery/property';
-import PrivetRoute from '../privet-route/privet-route';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 import 'react-toastify/dist/ReactToastify.css';
+import Favorites from '../favorites/favorites';
 
 function App(): JSX.Element {
   const authorizationStatus = useSelector(getAuthorizationStatus);
@@ -32,25 +31,23 @@ function App(): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path={AppRoute.Root}>
-          <MainPage />
-        </Route>
-        <Route exact path={AppRoute.Login}>
-          <Login />
-        </Route>
-        <Route exact path={AppRoute.Favorites}>
-          <PrivetRoute/>
-        </Route>
-        <Route exact path={AppRoute.Property}>
-          <Property/>
-        </Route>
-        <Route>
-          <Page404/>
-        </Route>
-      </Switch>
-    </BrowserRouter>
+    <Switch>
+      <Route exact path={AppRoute.Root}>
+        <MainPage/>
+      </Route>
+      <Route exact path={AppRoute.Login}>
+        <Login/>
+      </Route>
+      <Route exact path={AppRoute.Favorites}>
+        <Favorites/>
+      </Route>
+      <Route exact path={AppRoute.Property}>
+        <Property/>
+      </Route>
+      <Route>
+        <Page404/>
+      </Route>
+    </Switch>
   );
 }
 

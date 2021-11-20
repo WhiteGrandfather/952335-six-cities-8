@@ -5,7 +5,7 @@ import {cityProcess} from './city-process/city-pocess';
 import {propertyData} from './property-data/property-data';
 
 export enum NameSpace {
-  city= 'CITY',
+  city = 'CITY',
   data = 'DATA',
   user = 'USER',
   property = 'PROPERTY',

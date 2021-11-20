@@ -52,6 +52,7 @@ function Map({
   return (
     <div style={{height: '100%'}}
       ref={mapRef}
+      data-testid="map"
     >
     </div>
   );

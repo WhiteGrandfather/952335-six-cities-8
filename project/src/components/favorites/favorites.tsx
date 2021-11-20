@@ -8,16 +8,28 @@ import {
   useDispatch,
   useSelector
 } from 'react-redux';
-import {getFavorites} from '../../store/user-process/selector';
+import {
+  getAuthorizationStatus,
+  getFavorites
+} from '../../store/user-process/selector';
 import {fetchFavoritesAction} from '../../services/api-actions';
-import {AppRoute} from '../../const';
-import {Link} from 'react-router-dom';
+import {
+  Link,
+  Redirect,
+  useHistory
+} from 'react-router-dom';
 import {changeCurrentCity} from '../../store/action';
+import {
+  AppRoute,
+  AuthorizationStatus
+} from '../../const';
 
 export function Favorites(): JSX.Element {
-
+  const history = useHistory();
   const dispatch = useDispatch();
+
   const favorites = useSelector(getFavorites);
+  const authorizationStatus = useSelector(getAuthorizationStatus);
 
   useEffect(()=> {
     dispatch(fetchFavoritesAction());
@@ -61,7 +73,7 @@ export function Favorites(): JSX.Element {
   }
 
   const noFavorites = (
-    <section className="favorites favorites--empty">
+    <section className="favorites favorites--empty" data-testid="favorites">
       <h1 className="visually-hidden">Favorites (empty)</h1>
       <div className="favorites__status-wrapper">
         <b className="favorites__status">Nothing yet saved.</b>
@@ -69,6 +81,13 @@ export function Favorites(): JSX.Element {
       </div>
     </section>
   );
+
+  if (authorizationStatus !== AuthorizationStatus.Auth) {
+    history.push(AppRoute.Root);
+    return (
+      <Redirect to={AppRoute.Root} />
+    );
+  }
 
   return (
     <div className="page">

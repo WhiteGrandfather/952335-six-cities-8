@@ -3,7 +3,7 @@ import {
   FAKE_ARRAY_LENGTH
 } from '../../const';
 import {
-  initialState,
+  initialStateUser,
   userProcess
 } from './user-process';
 import {ActionType} from '../../types/action';
@@ -16,7 +16,7 @@ import {
 describe('Reducer: UserProcess', () => {
   it('without additional parameters should return initial state', () => {
     expect(userProcess(undefined, {type: 'UNKNOWN_ACTION'}))
-      .toEqual({...initialState});
+      .toEqual({...initialStateUser});
   });
 
   it('should update authorisationStatus to "AUTH', () => {
@@ -24,9 +24,9 @@ describe('Reducer: UserProcess', () => {
       type: ActionType.RequireAuthorization,
       payload: AuthorizationStatus.Auth,
     };
-    expect(userProcess(initialState, requireAuthorisation))
+    expect(userProcess(initialStateUser, requireAuthorisation))
       .toEqual({
-        ...initialState,
+        ...initialStateUser,
         authorizationStatus: AuthorizationStatus.Auth,
         isDataLoaded: true,
       });
@@ -37,8 +37,8 @@ describe('Reducer: UserProcess', () => {
       type: ActionType.RequireLogout,
       payload: AuthorizationStatus.NoAuth,
     };
-    expect(userProcess(initialState, requireLogout))
-      .toEqual({...initialState, authorizationStatus: AuthorizationStatus.NoAuth});
+    expect(userProcess(initialStateUser, requireLogout))
+      .toEqual({...initialStateUser, authorizationStatus: AuthorizationStatus.NoAuth});
   });
 
   it('should add user authorization info', () => {
@@ -48,9 +48,9 @@ describe('Reducer: UserProcess', () => {
       payload: authInfo,
     };
 
-    expect(userProcess(initialState, addAuthInfo))
+    expect(userProcess(initialStateUser, addAuthInfo))
       .toEqual({
-        ...initialState,
+        ...initialStateUser,
         authInfo: authInfoAdapter(authInfo),
       });
   });
@@ -62,7 +62,7 @@ describe('Reducer: UserProcess', () => {
       payload: favoritesCity,
     };
 
-    expect(userProcess(initialState, loadFavorites))
-      .toEqual({...initialState, favoritesCity: favoritesCity});
+    expect(userProcess(initialStateUser, loadFavorites))
+      .toEqual({...initialStateUser, favoritesCity: favoritesCity});
   });
 });

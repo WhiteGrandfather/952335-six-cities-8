@@ -7,16 +7,16 @@ import {
   resetProperty
 } from '../action';
 
-export const initialState: PropertyData = {
-  propertyData: null,
+const initialStateProperty: PropertyData = {
+  propertys: null,
   reviews: [],
   nearby: [],
 };
 
-const propertyData = createReducer(initialState, (builder) => {
+const propertyData = createReducer(initialStateProperty, (builder) => {
   builder
     .addCase(loadPropertyData, (state, action) => {
-      state.propertyData = action.payload;
+      state.propertys = action.payload;
     })
     .addCase(loadNearby, (state, action) => {
       state.nearby = action.payload;
@@ -25,8 +25,11 @@ const propertyData = createReducer(initialState, (builder) => {
       state.reviews = action.payload;
     })
     .addCase(resetProperty, (state) => {
-      state = initialState;
+      state = initialStateProperty;
     });
 });
 
-export {propertyData};
+export {
+  propertyData,
+  initialStateProperty
+};

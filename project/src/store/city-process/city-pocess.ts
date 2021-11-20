@@ -2,15 +2,18 @@ import {createReducer} from '@reduxjs/toolkit';
 import {changeCurrentCity} from '../action';
 import {CityData} from '../../types/state';
 
-const initialState: CityData = {
+const initialStateCity: CityData = {
   currentCity: 'Paris',
 };
 
-const cityProcess = createReducer(initialState, (builder) => {
+const cityProcess = createReducer(initialStateCity, (builder) => {
   builder
     .addCase(changeCurrentCity, (state, action) => {
       state.currentCity = action.payload;
     });
 });
 
-export {cityProcess};
+export {
+  cityProcess,
+  initialStateCity
+};

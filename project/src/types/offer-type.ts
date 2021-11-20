@@ -1,3 +1,5 @@
+import {UserBackend} from './auth-data';
+
 export type Locations = {
   latitude: number,
   longitude: number,
@@ -34,3 +36,22 @@ export type Offer = {
   title: string,
   type: string,
 };
+
+export type OfferBackend = {
+  bedrooms: number,
+  city: City,
+  description: string,
+  goods: string[],
+  host: UserBackend,
+  id: number,
+  images: string[],
+  'is_favorite': boolean,
+  'is_premium': boolean,
+  location: Locations,
+  'max_adults': number,
+  'preview_image': string,
+  price: number,
+  rating: number,
+  title: string,
+  type: string,
+}

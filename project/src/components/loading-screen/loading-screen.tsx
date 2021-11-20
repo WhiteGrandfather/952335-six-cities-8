@@ -4,7 +4,7 @@ import './style.css';
 
 export default function LoadingScreen(): JSX.Element {
   return (
-    <div className='loader'>
+    <div className='loader' data-testid="loader">
       <div className='loader__spinner-eclipse'>
         <div className='loader__spinner'>
           <div/>

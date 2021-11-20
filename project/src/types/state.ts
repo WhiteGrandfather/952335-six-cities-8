@@ -27,7 +27,7 @@ export type UserData = {
 };
 
 export type PropertyData = {
-  propertyData: Offer | null,
+  propertys: Offer | null,
   reviews: Review[],
   nearby: Offer[],
 }

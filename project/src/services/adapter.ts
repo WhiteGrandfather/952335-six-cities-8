@@ -1,8 +1,8 @@
-import {Offer} from '../types/offer-type';
+import {Offer, OfferBackend} from '../types/offer-type';
 import {AuthInfo} from '../types/state';
 import {Review} from '../types/review';
 
-export function adapter(item: any | Offer): Offer {
+export function adapter(item: OfferBackend): Offer {
   const {
     bedrooms,
     city,
@@ -43,8 +43,8 @@ export function adapter(item: any | Offer): Offer {
   };
 }
 
-export function arrAdapter(array: Offer[]): Offer[] {
-  return array.map((item: Offer) =>adapter(item));
+export function arrAdapter(array: OfferBackend[]): Offer[] {
+  return array.map((item: OfferBackend) => adapter(item));
 }
 
 export function authInfoAdapter(item: any | AuthInfo): AuthInfo {

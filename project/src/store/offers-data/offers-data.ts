@@ -9,12 +9,12 @@ import {
 import {adapter} from '../../services/adapter';
 import {Offer} from '../../types/offer-type';
 
-const initialState: OffersData = {
+const initialStateOffers: OffersData = {
   sortOfferBy: SortBy.Default,
   offers: [],
 };
 
-const offersData = createReducer(initialState, (builder) => {
+const offersData = createReducer(initialStateOffers, (builder) => {
   builder
     .addCase(changeOfferSort, (state, action) => {
       state.sortOfferBy = action.payload;
@@ -29,4 +29,7 @@ const offersData = createReducer(initialState, (builder) => {
     });
 });
 
-export {offersData};
+export {
+  offersData,
+  initialStateOffers
+};

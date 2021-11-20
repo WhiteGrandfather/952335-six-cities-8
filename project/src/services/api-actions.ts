@@ -12,7 +12,7 @@ import {
   Token
 } from './token';
 import {AuthData} from '../types/auth-data';
-import {Offer} from '../types/offer-type';
+import {OfferBackend} from '../types/offer-type';
 import {
   addAuthInfo,
   changeFavoriteCity,
@@ -37,7 +37,7 @@ import {
 
 export const fetchOffersAction = (): ThunkActionResult => (
   async (dispatch, _getState, api): Promise<void> => {
-    const {data} = await api.get<Offer[]>(APIRoute.Offers);
+    const {data} = await api.get<OfferBackend[]>(APIRoute.Offers);
     dispatch(loadOffers(arrAdapter(data)));
   }
 );
@@ -77,7 +77,7 @@ export const logoutAction = (): ThunkActionResult => (
 
 export const changeFavoriteCityAction = ({id, status}: AddFavorite): ThunkActionResult => (
   async (dispatch, _getState, api) => {
-    await api.post<Offer[]>(`${APIRoute.Favorite}/${id}/${status}`)
+    await api.post<OfferBackend>(`${APIRoute.Favorite}/${id}/${status}`)
       .then((item)=> {
         if (item.status === 200) {
           dispatch(changeFavoriteCity(item.data));
@@ -90,7 +90,7 @@ export const changeFavoriteCityAction = ({id, status}: AddFavorite): ThunkAction
 
 export const fetchPropertyAction = (id: number): ThunkActionResult => (
   async (dispatch, _getState, api) => {
-    await api.get<Offer>(`${APIRoute.Offers}/${id}`)
+    await api.get<OfferBackend>(`${APIRoute.Offers}/${id}`)
       .then((item) => {
         if (item.status === 200) {
           dispatch(loadPropertyData(adapter(item.data)));
@@ -103,7 +103,7 @@ export const fetchPropertyAction = (id: number): ThunkActionResult => (
 
 export const loadNearbyAction = (id: number): ThunkActionResult => (
   async (dispatch, _getState, api) => {
-    await api.get<Offer[]>(`${APIRoute.Offers}/${id}/nearby`)
+    await api.get<OfferBackend[]>(`${APIRoute.Offers}/${id}/nearby`)
       .then((item) => {
         dispatch(loadNearby(arrAdapter(item.data)));
       });
@@ -130,7 +130,7 @@ export const fetchReviewAction = (id: number, {comment, rating}: ReviewPost): Th
 
 export const fetchFavoritesAction = (): ThunkActionResult => (
   async (dispatch, _getState, api) => {
-    await api.get<Offer[]>(`${APIRoute.Favorite}`)
+    await api.get<OfferBackend[]>(`${APIRoute.Favorite}`)
       .then((item)=>{
         dispatch(loadFavorites(arrAdapter(item.data)));
       });
