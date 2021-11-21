@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {ReviewItemProps} from './types';
-import {Multiplier} from '../place-card-item/type';
+import {getWidthByRating} from '../../utils/utils';
 
 export default function ReviewItem(
   {review: {
@@ -13,9 +13,6 @@ export default function ReviewItem(
     date,
     rating,
   }}: ReviewItemProps):JSX.Element {
-
-  const STARS_MULTIPLIER: Multiplier = 20;
-  const ratingPercent = rating * STARS_MULTIPLIER;
 
   const dateTime = new Date(date);
 
@@ -41,7 +38,7 @@ export default function ReviewItem(
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{width: `${ratingPercent}%`}}/>
+            <span style={{width: `${getWidthByRating(rating)}%`}}/>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

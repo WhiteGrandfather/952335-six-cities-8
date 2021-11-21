@@ -118,42 +118,6 @@ describe('Application Routing', () => {
     expect(screen.queryByTestId('password')).not.toBeInTheDocument();
   });
 
-
-  // Пока не работает :(
-  // it('should render "Favorites" when user navigates to "/favorites"', () => {
-  //   history.replace(AppRoute.Favorites);
-  //
-  //   const favoriteOffer = getOffer();
-  //   favoriteOffer.isFavorite = true;
-  //
-  //   const authStore = mockStore({
-  //     CITY: initialStateCity,
-  //     DATA: {
-  //       sortOfferBy: SortBy.Default,
-  //       offers,
-  //     },
-  //     USER: {
-  //       isDataLoaded: true,
-  //       authorizationStatus: AuthorizationStatus.NoAuth,
-  //       favoritesCity: [favoriteOffer],
-  //       authInfo: getUser(),
-  //     },
-  //     PROPERTY: initialStateProperty,
-  //   });
-  //
-  //   const elems = render(fakeApp(authStore));
-  //
-  //   const favId = elems.getByTestId('favorites');
-  //   const favText = elems.getByText('Saved listing');
-  //   const favName = elems.queryByText(favoriteOffer.city.name);
-  //   const favItemTitle = elems.getByText(favoriteOffer.title);
-  //
-  //   expect(favId).toBeInTheDocument();
-  //   expect(favText).toBeInTheDocument();
-  //   expect(favName).toBeInTheDocument();
-  //   expect(favItemTitle).toBeInTheDocument();
-  // });
-
   it('should render "NotFoundPage" when user navigates to non-existent-route', () => {
     history.push('/404-non-existent-route');
 

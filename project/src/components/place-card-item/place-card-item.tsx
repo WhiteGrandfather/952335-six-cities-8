@@ -5,8 +5,7 @@ import {
 } from 'react-router-dom';
 
 import type {
-  PlaceCardItemProps,
-  Multiplier
+  PlaceCardItemProps
 } from './type';
 import type {Offer} from '../../types/offer-type';
 import {
@@ -19,6 +18,7 @@ import {
   AuthorizationStatus
 } from '../../const';
 import {getAuthorizationStatus} from '../../store/user-process/selector';
+import {getWidthByRating} from '../../utils/utils';
 
 export default function PlaceCardItem ({
   Offer,
@@ -41,10 +41,7 @@ export default function PlaceCardItem ({
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const isLoggedIn = authorizationStatus === AuthorizationStatus.Auth;
 
-  const STARS_MULTIPLIER: Multiplier = 20;
-
   const mark: JSX.Element = <div className="place-card__mark"><span>Premium</span></div>;
-  const ratingPercent = rating * STARS_MULTIPLIER;
 
   return (
     <article className={`${favorites?'favorites__card':'cities__place-card'} place-card`}
@@ -85,7 +82,7 @@ export default function PlaceCardItem ({
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${ratingPercent}%`}}/>
+            <span style={{width: `${getWidthByRating(rating)}%`}}/>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

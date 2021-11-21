@@ -9,13 +9,13 @@ import {
 } from 'react-router-dom';
 
 import {Offer} from '../../types/offer-type';
-import {Multiplier} from '../place-card-item/type';
 import {changeFavoriteCityAction} from '../../services/api-actions';
 import {getAuthorizationStatus} from '../../store/user-process/selector';
 import {
   APIRoute,
   AuthorizationStatus
 } from '../../const';
+import {getWidthByRating} from '../../utils/utils';
 
 type NearbyItemProps = {
   nearby: Offer,
@@ -31,9 +31,6 @@ export default function NearbyItem({nearby}: NearbyItemProps): JSX.Element {
     type,
     id,
   }: Offer = nearby;
-
-  const STARS_MULTIPLIER: Multiplier = 20;
-  const ratingPercent = rating * STARS_MULTIPLIER;
 
   const history = useHistory();
   const dispatch = useDispatch();
@@ -76,7 +73,7 @@ export default function NearbyItem({nearby}: NearbyItemProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${ratingPercent}%`}}/>
+            <span style={{width: `${getWidthByRating(rating)}%`}}/>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

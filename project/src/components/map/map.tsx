@@ -3,7 +3,6 @@ import React, {
   useRef
 } from 'react';
 import useMap from '../../hooks/useMap';
-
 import type {MapProps} from './type';
 import {
   Icon,
@@ -26,12 +25,15 @@ const currentCustomIcon = new Icon({
 function Map({
   city,
   points,
-  onHoverId}: MapProps): JSX.Element {
+  onHoverId,
+}: MapProps): JSX.Element {
 
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
   useEffect(() => {
+    const markers: Marker[] = [];
+
     if (map) {
       points.forEach((point) => {
         const marker = new Marker({
@@ -47,7 +49,13 @@ function Map({
           .addTo(map);
       });
     }
-  }, [map, points, onHoverId]);
+    return () => markers.forEach((marker) => marker.remove());
+  });
+
+  useEffect(() => {
+    const {latitude, longitude} = city;
+    map?.setView([latitude, longitude]);
+  });
 
   return (
     <div style={{height: '100%'}}
@@ -58,7 +66,4 @@ function Map({
   );
 }
 
-export default React.memo(
-  Map,
-  (prevProps, nextProps) =>prevProps.onHoverId === nextProps.onHoverId,
-);
+export default Map;

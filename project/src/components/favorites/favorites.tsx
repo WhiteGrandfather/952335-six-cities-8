@@ -33,7 +33,7 @@ export function Favorites(): JSX.Element {
 
   useEffect(()=> {
     dispatch(fetchFavoritesAction());
-  },[favorites]);
+  },[favorites,dispatch]);
 
   function getFavoritesList (array: Offer[]): FavoritesListProps[] {
     const cityList = array
@@ -90,7 +90,7 @@ export function Favorites(): JSX.Element {
   }
 
   return (
-    <div className="page">
+    <div className="page" data-testid="favorites">
       <Header  ShowNav/>
 
       <main className="page__main page__main--favorites">

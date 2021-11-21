@@ -45,3 +45,8 @@ export const OfferType: {[key: string]: string} = {
 export const AUTH_FAIL_MESSAGE = 'Не забудьте авторизоваться';
 
 export const FAKE_ARRAY_LENGTH = 3;
+
+export const Rating = {
+  MAX_RATING_PERCENT: 100,
+  RATING_MULTIPLIER: 20,
+} as const;

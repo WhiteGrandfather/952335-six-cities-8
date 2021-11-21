@@ -14,7 +14,6 @@ import Header from '../header/header';
 import ReviewList from '../review-list/review-list';
 import Map from '../map/map';
 
-import type {Multiplier} from '../place-card-item/type';
 import type {
   City,
   Points
@@ -36,10 +35,10 @@ import {
 import {getAuthorizationStatus} from '../../store/user-process/selector';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {resetProperty} from '../../store/action';
+import {getWidthByRating} from '../../utils/utils';
 
 export function Property(): JSX.Element {
   const MAX_IMAGES_COUNT = 6;
-  const STARS_MULTIPLIER: Multiplier = 20;
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -110,8 +109,6 @@ export function Property(): JSX.Element {
       zoom: city.location.zoom,
     };
 
-    const ratingPercent = rating * STARS_MULTIPLIER;
-
     const imagesList = images.map((image) => (
       <div className="property__image-wrapper" key={maxID++}>
         <img className="property__image" src={image} alt="Photo studio"/>
@@ -167,7 +164,7 @@ export function Property(): JSX.Element {
                 </div>
                 <div className="property__rating rating">
                   <div className="property__stars rating__stars">
-                    <span style={{width: `${ratingPercent}%`}}/>
+                    <span style={{width: `${getWidthByRating(rating)}%`}}/>
                     <span className="visually-hidden">Rating</span>
                   </div>
                   <span className="property__rating-value rating__value">
